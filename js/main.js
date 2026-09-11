@@ -14,11 +14,6 @@
     TeamPage.bindUI();
     MiniGame1.bind();
     MiniGame2.bind();
-    MiniGame3.bind();
-    MiniGame4.bind();
-    MiniGame5.bind();
-    MiniGame6.bind();
-    MiniGame7.bind();
     Engine.bind();
 
     // 语言切换按钮（已移除 UI，保留 i18n 机制；如需恢复，添加带 data-i18n-lang 的元素即可）

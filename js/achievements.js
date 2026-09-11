@@ -7,12 +7,7 @@ window.Achievements = (function(){
     { id:'ach_reunion',  nameKey:'ach.reunion.name',  descKey:'ach.reunion.desc',  icon:'🤝' },
     { id:'ach_perfect',  nameKey:'ach.perfect.name',  descKey:'ach.perfect.desc',  icon:'🎯' },
     { id:'ach_truth',    nameKey:'ach.truth.name',    descKey:'ach.truth.desc',    icon:'📜' },
-    { id:'ach_secret',   nameKey:'ach.secret.name',   descKey:'ach.secret.desc',   icon:'🪞' },
-    { id:'ach_interrogator', nameKey:'ach.interrogator.name', descKey:'ach.interrogator.desc', icon:'🗣️' },
-    { id:'ach_detective',    nameKey:'ach.detective.name',    descKey:'ach.detective.desc',    icon:'🕸️' },
-    { id:'ach_memory',       nameKey:'ach.memory.name',       descKey:'ach.memory.desc',       icon:'🧠' },
-    { id:'ach_unpredictable',nameKey:'ach.unpredictable.name',descKey:'ach.unpredictable.desc',icon:'🎲' },
-    { id:'ach_truth2',       nameKey:'ach.truth2.name',       descKey:'ach.truth2.desc',       icon:'🧩' }
+    { id:'ach_secret',   nameKey:'ach.secret.name',   descKey:'ach.secret.desc',   icon:'🪞' }
   ];
   let unlocked = load();
   let _rendered = false;
