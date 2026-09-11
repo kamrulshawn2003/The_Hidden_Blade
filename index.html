@@ -228,29 +228,253 @@
     </div>
   </section>
 
-  <!-- ============ 小游戏 2：资金链追踪 ============ -->
+  <!-- ============ 小游戏 2：精密撬锁 ============ -->
   <section id="screen-minigame2" class="screen">
     <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_safehouse.png')"></div>
     <div class="bg-vignette"></div>
-    <div class="mg2-layout">
-      <div class="mg2-top">
-        <div class="mg2-title" data-i18n="mg2.title">行动二：地下资金链追查</div>
-        <div class="mg2-timer"><span data-i18n="mg2.timer">倒计时</span>：<span id="mg2-timer-val">45</span>s</div>
-        <div class="mg2-alarm"><span data-i18n="mg2.alarm">警报</span>：<span id="mg2-alarm-val">0</span>/3</div>
+    <div class="lock-layout">
+      <div class="lock-top">
+        <div class="lock-title" data-i18n="mg2.title">PRECISION LOCKPICKING · 精密撬锁</div>
+        <div class="lock-timer"><span data-i18n="mg2.timer">时间</span>：<span id="lock-timer-val">60</span>s</div>
+        <div class="lock-picks"><span data-i18n="mg2.picks">撬针</span>：<span id="lock-picks-val">3</span></div>
       </div>
-      <div class="mg2-main">
-        <div class="mg2-grid" id="mg2-grid"></div>
-        <div class="mg2-side">
-          <div class="mg2-legend">
-            <div class="legend-title" data-i18n="mg2.legend">图例</div>
-            <div class="legend-item"><span class="lg-tile lg-start"></span><span data-i18n="mg2.start">起点：企业银行</span></div>
-            <div class="legend-item"><span class="lg-tile lg-end"></span><span data-i18n="mg2.end">终点：避难所坐标</span></div>
-            <div class="legend-item"><span class="lg-tile lg-pipe"></span><span data-i18n="mg2.pipe">管道节点（点击旋转90°）</span></div>
-            <div class="legend-item"><span class="lg-tile lg-trap"></span><span data-i18n="mg2.trap">防火墙陷阱（经过触发警报）</span></div>
-          </div>
-          <div class="mg2-hint" data-i18n="mg2.hint">在倒计时结束前，旋转节点将起点与终点连通。</div>
-          <button class="btn-ghost" id="mg2-reset" data-i18n="mg2.reset">重置布局</button>
+      <div class="lock-main">
+        <div class="lock-stage" id="lock-stage">
+          <svg class="lock-svg" viewBox="0 0 300 340">
+            <circle cx="150" cy="160" r="130" fill="url(#brassGrad)" stroke="#8B6914" stroke-width="4"/>
+            <circle cx="150" cy="160" r="110" fill="#2a1f0a" stroke="#5a4a1a" stroke-width="2"/>
+            <g id="lock-cylinder" transform="rotate(0 150 160)">
+              <circle cx="150" cy="160" r="85" fill="#3d2f10" stroke="#8B6914" stroke-width="3"/>
+              <rect x="140" y="125" width="20" height="45" rx="4" fill="#111"/>
+              <circle cx="150" cy="170" r="14" fill="#111"/>
+              <line x1="150" y1="80" x2="150" y2="95" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+            </g>
+            <g id="tension-wrench" transform="rotate(0 150 250)">
+              <rect x="143" y="245" width="14" height="35" rx="3" fill="#666" stroke="#444" stroke-width="1"/>
+              <rect x="130" y="275" width="40" height="10" rx="3" fill="#888" stroke="#555" stroke-width="1"/>
+            </g>
+            <g id="lock-pick" transform="rotate(0 150 160)">
+              <line x1="150" y1="160" x2="150" y2="50" stroke="#c0c0c0" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="150" cy="50" r="4" fill="#e0e0e0"/>
+            </g>
+            <defs>
+              <radialGradient id="brassGrad" cx="40%" cy="35%">
+                <stop offset="0%" stop-color="#d4af37"/>
+                <stop offset="60%" stop-color="#b8941f"/>
+                <stop offset="100%" stop-color="#8B6914"/>
+              </radialGradient>
+            </defs>
+          </svg>
+          <div class="lock-angle-display"><span id="lock-angle-val">90</span>°</div>
         </div>
+        <div class="lock-side">
+          <div class="lock-stress">
+            <div class="lock-side-label" data-i18n="mg2.stress">张力 / STRESS</div>
+            <div class="lock-stress-bar"><div class="lock-stress-fill" id="lock-stress-fill"></div></div>
+            <div class="lock-stress-val" id="lock-stress-val">0%</div>
+          </div>
+          <div class="lock-noise">
+            <div class="lock-side-label" data-i18n="mg2.noise">噪音 / NOISE</div>
+            <div class="lock-noise-bar"><div class="lock-noise-fill" id="lock-noise-fill"></div></div>
+            <div class="lock-noise-val" id="lock-noise-val">0%</div>
+          </div>
+          <div class="lock-status" id="lock-status" data-i18n="mg2.statusIdle">移动鼠标调整撬针角度，按住空格施加张力</div>
+          <div class="lock-hint" data-i18n="mg2.hint">在±5°范围内按住空格可完全转动锁芯。错误角度持续1.5秒会折断撬针！</div>
+          <div class="lock-controls">
+            <div><kbd>←</kbd> <kbd>→</kbd> <span data-i18n="mg2.ctrlAngle">微调角度</span></div>
+            <div><kbd>SPACE</kbd> <span data-i18n="mg2.ctrlTension">按住施加张力</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 小游戏 3：审讯 ============ -->
+  <section id="screen-minigame3" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_bunker.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="mg3-layout">
+      <div class="mg3-top">
+        <div class="mg3-title" data-i18n="mg3.title">INTERROGATION · 审讯</div>
+        <div class="mg3-turns"><span data-i18n="mg3.turns">Actions</span>：<span id="mg3-turns-val">14</span></div>
+        <div class="mg3-pressure">
+          <span data-i18n="mg3.pressure">PRESSURE</span>
+          <div class="mg3-pressure-bar"><div class="mg3-pressure-fill" id="mg3-pressure-fill"></div></div>
+          <span class="mg3-pressure-val" id="mg3-pressure-val">20%</span>
+        </div>
+      </div>
+      <div class="mg3-main">
+        <div class="mg3-statement-panel">
+          <div class="mg3-side-label" data-i18n="mg3.statement">STATEMENT</div>
+          <div class="mg3-statement-num" id="mg3-statement-num">1 / 3</div>
+          <div class="mg3-statement-text" id="mg3-statement-text"></div>
+          <div class="mg3-feedback" id="mg3-feedback"></div>
+        </div>
+        <div class="mg3-suspect">
+          <img id="mg3-suspect-img" src="assets/sprites/kidnapper_base.png" alt="Suspect">
+        </div>
+        <div class="mg3-evidence-panel">
+          <div class="mg3-side-label" data-i18n="mg3.evidenceTitle">EVIDENCE CARDS</div>
+          <div class="mg3-evidence-list" id="mg3-evidence-list"></div>
+        </div>
+      </div>
+      <div class="mg3-actions">
+        <div class="mg3-side-label" data-i18n="mg3.actionsTitle">INTERROGATION ACTIONS</div>
+        <div class="mg3-action-row">
+          <button class="mg3-action" id="mg3-ask" data-i18n="mg3.ask">ASK</button>
+          <button class="mg3-action" id="mg3-press" data-i18n="mg3.press">PRESS</button>
+          <button class="mg3-action" id="mg3-show" data-i18n="mg3.show">SHOW EVIDENCE</button>
+          <button class="mg3-action" id="mg3-confront" data-i18n="mg3.confront">CONFRONT</button>
+          <button class="mg3-action" id="mg3-wait" data-i18n="mg3.wait">WAIT</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 小游戏 4：证据板 I ============ -->
+  <section id="screen-minigame4" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_safehouse.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="mg4-layout">
+      <div class="mg4-top">
+        <div class="mg4-title" data-i18n="mg4.title">EVIDENCE BOARD · 证据板</div>
+        <div class="mg4-counters">
+          <span><span data-i18n="mg4.correct">CORRECT</span>: <b id="mg4-correct">0</b></span>
+          <span><span data-i18n="mg4.incorrect">INCORRECT</span>: <b id="mg4-incorrect">0</b></span>
+        </div>
+      </div>
+      <div class="mg4-main">
+        <div class="mg4-inventory">
+          <div class="mg4-side-label" data-i18n="mg4.inventory">EVIDENCE INVENTORY</div>
+          <div class="mg4-inv-list" id="mg4-inv-list"></div>
+        </div>
+        <div class="mg4-board-wrap">
+          <div class="mg4-side-label" data-i18n="mg4.board">INVESTIGATION BOARD</div>
+          <div class="mg4-board" id="mg4-board">
+            <svg class="mg4-lines" id="mg4-lines"></svg>
+            <div class="mg4-drop-hint" id="mg4-drop-hint"></div>
+          </div>
+          <div class="mg4-board-hint" data-i18n="mg4.hint"></div>
+        </div>
+        <div class="mg4-inspector">
+          <div class="mg4-side-label" data-i18n="mg4.inspector">SELECTED EVIDENCE</div>
+          <div class="mg4-inspector-body" id="mg4-inspector-body"></div>
+        </div>
+      </div>
+      <div class="mg4-bottom">
+        <button class="btn-primary mg4-confirm" id="mg4-confirm" data-i18n="mg4.confirm">CONFIRM THEORY</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 小游戏 5：重返归乡行动 ============ -->
+  <section id="screen-minigame5" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_bunker.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="mg5-layout">
+      <div class="mg5-top">
+        <div class="mg5-title" data-i18n="mg5.title">RETURN TO HOMECOMING · 重返归乡行动</div>
+        <div class="mg5-distortion">
+          <span data-i18n="mg5.distortion">DISTORTION</span>
+          <div class="mg5-dist-bar"><div class="mg5-dist-fill" id="mg5-dist-fill"></div></div>
+          <span class="mg5-dist-val" id="mg5-dist-val">100%</span>
+        </div>
+      </div>
+      <div class="mg5-main">
+        <div class="mg5-scene" id="mg5-scene">
+          <div class="mg5-side-label mg5-scene-label" data-i18n="mg5.scene">RECONSTRUCTED STATION</div>
+          <div class="mg5-hotspot" data-hotspot="radio" style="left:12%;top:22%"></div>
+          <div class="mg5-hotspot" data-hotspot="door" style="left:26%;top:58%"></div>
+          <div class="mg5-hotspot" data-hotspot="vehicle" style="left:74%;top:66%"></div>
+          <div class="mg5-hotspot" data-hotspot="equipment" style="left:58%;top:30%"></div>
+          <div class="mg5-hotspot" data-hotspot="computer" style="left:44%;top:44%"></div>
+          <div class="mg5-hotspot" data-hotspot="location" style="left:88%;top:18%"></div>
+        </div>
+        <div class="mg5-side">
+          <div class="mg5-fragments">
+            <div class="mg5-side-label" data-i18n="mg5.fragments">MEMORY FRAGMENTS</div>
+            <div class="mg5-frag-list" id="mg5-frag-list"></div>
+          </div>
+          <div class="mg5-timeline">
+            <div class="mg5-side-label" data-i18n="mg5.timeline">RECONSTRUCTION TIMELINE</div>
+            <div class="mg5-tl-slots" id="mg5-tl-slots"></div>
+          </div>
+          <div class="mg5-buttons">
+            <button class="btn-primary mg5-submit" id="mg5-submit" data-i18n="mg5.submit">SUBMIT TIMELINE</button>
+            <button class="btn-ghost mg5-continue" id="mg5-continue" data-i18n="mg5.continue">CONTINUE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 小游戏 6：镜系统预测 ============ -->
+  <section id="screen-minigame6" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_server.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="mg6-layout">
+      <div class="mg6-top">
+        <div class="mg6-title" data-i18n="mg6.title">MIRROR PREDICTION · 镜系统预测</div>
+        <div class="mg6-round"><span data-i18n="mg6.round">ROUND</span>：<span id="mg6-round-val">1</span>/8</div>
+        <div class="mg6-meter">
+          <span data-i18n="mg6.meter">PREDICTION METER</span>
+          <div class="mg6-meter-bar"><div class="mg6-meter-fill" id="mg6-meter-fill"></div></div>
+          <span class="mg6-meter-val" id="mg6-meter-val">0%</span>
+        </div>
+      </div>
+      <div class="mg6-main">
+        <div class="mg6-prediction-panel">
+          <div class="mg6-side-label" data-i18n="mg6.prediction">MIRROR PREDICTS</div>
+          <div class="mg6-prediction-move" id="mg6-prediction-move">—</div>
+          <div class="mg6-prediction-text" id="mg6-prediction-text"></div>
+          <div class="mg6-feedback" id="mg6-feedback"></div>
+        </div>
+        <div class="mg6-actions">
+          <div class="mg6-side-label" data-i18n="mg6.actionsTitle">CHOOSE YOUR NEXT MOVE</div>
+          <div class="mg6-action-grid" id="mg6-action-grid"></div>
+        </div>
+        <div class="mg6-profile">
+          <div class="mg6-side-label" data-i18n="mg6.profile">YOUR PLAY PROFILE</div>
+          <div class="mg6-profile-bars" id="mg6-profile-bars"></div>
+        </div>
+      </div>
+      <div class="mg6-log" id="mg6-log"></div>
+    </div>
+  </section>
+
+  <!-- ============ 小游戏 7：最终证据板 ============ -->
+  <section id="screen-minigame7" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_safehouse.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="mg7-layout">
+      <div class="mg7-top">
+        <div class="mg7-title" data-i18n="mg7.title">COMPLETE THE TRUTH · 补全真相</div>
+        <div class="mg7-counters">
+          <span><span data-i18n="mg7.evidence">EVIDENCE</span>: <b id="mg7-evidence">0</b></span>
+          <span><span data-i18n="mg4.correct">CORRECT</span>: <b id="mg7-correct">0</b></span>
+          <span><span data-i18n="mg4.incorrect">INCORRECT</span>: <b id="mg7-incorrect">0</b></span>
+        </div>
+      </div>
+      <div class="mg7-main">
+        <div class="mg7-inventory">
+          <div class="mg7-side-label" data-i18n="mg7.inventory">EVIDENCE INVENTORY</div>
+          <div class="mg7-inv-list" id="mg7-inv-list"></div>
+        </div>
+        <div class="mg7-board-wrap">
+          <div class="mg7-side-label" data-i18n="mg7.board">TRUTH BOARD</div>
+          <div class="mg7-board" id="mg7-board">
+            <svg class="mg7-lines" id="mg7-lines"></svg>
+            <div class="mg7-drop-hint" id="mg7-drop-hint"></div>
+          </div>
+          <div class="mg7-board-hint" data-i18n="mg7.hint"></div>
+        </div>
+        <div class="mg7-inspector">
+          <div class="mg7-side-label" data-i18n="mg7.inspector">SELECTED EVIDENCE</div>
+          <div class="mg7-inspector-body" id="mg7-inspector-body"></div>
+        </div>
+      </div>
+      <div class="mg7-bottom">
+        <button class="btn-primary mg7-confirm" id="mg7-confirm" data-i18n="mg7.confirm">CONFIRM THE TRUTH</button>
       </div>
     </div>
   </section>
@@ -285,6 +509,11 @@
 <script src="js/team.js"></script>
 <script src="js/minigame1.js"></script>
 <script src="js/minigame2.js"></script>
+<script src="js/minigame3.js"></script>
+<script src="js/minigame4.js"></script>
+<script src="js/minigame5.js"></script>
+<script src="js/minigame6.js"></script>
+<script src="js/minigame7.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/main.js"></script>
 </body>

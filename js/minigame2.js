@@ -1,219 +1,276 @@
-/* ===== 微游戏 2：地下资金链追查（4×4 管道旋转解谜） ===== */
+/* ===== 微游戏 2：精密撬锁系统 (Precision Lockpicking) ===== */
 window.MiniGame2 = (function(){
+  const TIME_LIMIT = 60;
+  const MAX_PICKS = 3;
+  const TOLERANCE = 5;       // ±5° 甜蜜点容差
+  const BREAK_TIME = 1500;   // 错误角度持续1.5秒折断
+  const PARTIAL_ZONE = 25;   // ±25° 内可部分转动
+
   let timer = null;
-  let timeLeft = 45;
-  let alarm = 0;
-  let grid = [];
+  let timeLeft = TIME_LIMIT;
+  let picks = MAX_PICKS;
+  let noise = 0;
+  let targetAngle = 90;      // 随机甜蜜点
+  let pickAngle = 90;        // 当前撬针角度
+  let cylinderRot = 0;       // 锁芯当前旋转角度
+  let tensioning = false;
+  let wrongHoldStart = 0;    // 错误角度持续时间戳
+  let stress = 0;            // 张力百分比
   let onSuccess = null, onFail = null;
-  let wasContaminated = false;
   let _active = false;
+  let rafId = null;
+  let breakAnim = 0;
 
-  /* 初始布局（保证有解；陷阱位于非必经路径） */
-  function initialGrid(){
-    return [
-      [{type:'start',rot:0,fixed:true}, {type:'straight',rot:1},          {type:'corner',rot:0},   {type:'corner',rot:1}],
-      [{type:'straight',rot:0},        {type:'trap',rot:2,trap:true},     {type:'straight',rot:0}, {type:'corner',rot:3}],
-      [{type:'corner',rot:3},          {type:'trap',rot:0,trap:true},     {type:'corner',rot:2},   {type:'corner',rot:0}],
-      [{type:'straight',rot:1},        {type:'corner',rot:0},             {type:'straight',rot:1}, {type:'end',rot:0,fixed:true}]
-    ];
-  }
-
-  /* 各类型在 rot=0 时的连接方向 */
-  const BASE_CONN = {
-    straight: ['E','W'],
-    corner:   ['N','E'],
-    tee:      ['N','E','S'],
-    trap:     ['N','E'],
-    start:    ['E'],
-    end:      ['W','N']
-  };
-  const OPPOSITE = { N:'S', S:'N', E:'W', W:'E' };
-  const DELTA = { N:[-1,0], S:[1,0], E:[0,1], W:[0,-1] };
-
-  function getConnections(tile){
-    if(tile.type === 'start' || tile.type === 'end') return BASE_CONN[tile.type];
-    const base = BASE_CONN[tile.type] || [];
-    const r = ((tile.rot % 4) + 4) % 4;
-    const order = ['N','E','S','W'];
-    return base.map(d => order[(order.indexOf(d) + r) % 4]);
-  }
-
+  /* ---------- 启动 ---------- */
   function start(success, fail){
+    cleanup();
     onSuccess = success; onFail = fail;
-    timeLeft = 45; alarm = 0; wasContaminated = false; _active = true;
-    grid = initialGrid();
+    timeLeft = TIME_LIMIT;
+    picks = MAX_PICKS;
+    noise = 0;
+    targetAngle = 10 + Math.random() * 160; // 10°~170°
+    pickAngle = 90;
+    cylinderRot = 0;
+    tensioning = false;
+    wrongHoldStart = 0;
+    stress = 0;
+    breakAnim = 0;
+    _active = true;
+
     Engine.showScreen('minigame2');
-    render();
     updateHUD();
+    renderLock();
+    bindInput();
     timer = setInterval(tick, 1000);
+    rafId = requestAnimationFrame(loop);
   }
 
+  /* ---------- 主循环 ---------- */
+  function loop(){
+    if(!_active) return;
+    const now = performance.now();
+
+    if(tensioning){
+      const diff = Math.abs(pickAngle - targetAngle);
+      if(diff <= TOLERANCE){
+        // 甜蜜点：锁芯完全转动
+        cylinderRot = Math.min(180, cylinderRot + 3);
+        stress = 100;
+        wrongHoldStart = 0;
+        if(cylinderRot >= 180){
+          success();
+          return;
+        }
+      } else if(diff <= PARTIAL_ZONE){
+        // 接近：部分转动
+        const partial = 1 - (diff - TOLERANCE) / (PARTIAL_ZONE - TOLERANCE);
+        const targetRot = partial * 90;
+        cylinderRot += (targetRot - cylinderRot) * 0.1;
+        stress = partial * 70;
+        wrongHoldStart = 0;
+      } else {
+        // 错误角度：锁芯不动，张力累积
+        cylinderRot *= 0.9;
+        stress = Math.min(100, stress + 2);
+        if(wrongHoldStart === 0) wrongHoldStart = now;
+        if(now - wrongHoldStart >= BREAK_TIME){
+          breakPick();
+        }
+      }
+    } else {
+      // 松开张力：锁芯回弹
+      cylinderRot *= 0.92;
+      stress = Math.max(0, stress - 4);
+      wrongHoldStart = 0;
+    }
+
+    renderLock();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  /* ---------- 折断撬针 ---------- */
+  function breakPick(){
+    AudioSys.sfx.fail();
+    picks--;
+    noise = Math.min(100, noise + 30);
+    tensioning = false;
+    wrongHoldStart = 0;
+    cylinderRot = 0;
+    stress = 0;
+    breakAnim = 1;
+
+    setStatus(I18N.t('mg2.pickBroken'));
+    updateHUD();
+
+    if(picks <= 0){
+      setTimeout(fail, 600);
+    } else {
+      setTimeout(()=>{
+        if(_active){
+          breakAnim = 0;
+          setStatus(I18N.t('mg2.statusIdle'));
+          renderLock();
+        }
+      }, 800);
+    }
+  }
+
+  /* ---------- 计时器 ---------- */
   function tick(){
     timeLeft--;
     updateHUD();
+    if(timeLeft <= 10){
+      const el = document.querySelector('.lock-timer');
+      if(el) el.classList.add('warning');
+    }
     if(timeLeft <= 0){ fail(); }
   }
 
+  /* ---------- 渲染锁 ---------- */
+  function renderLock(){
+    const pick = document.getElementById('lock-pick');
+    const cylinder = document.getElementById('lock-cylinder');
+    const wrench = document.getElementById('tension-wrench');
+    const angleVal = document.getElementById('lock-angle-val');
+
+    if(pick){
+      // 撬针角度：0-180°，以锁芯中心为轴
+      const pickRot = pickAngle - 90; // SVG中0度是向上，所以偏移-90
+      let transform = `rotate(${pickRot} 150 160)`;
+      if(breakAnim > 0){
+        const shake = (Math.random() - 0.5) * 8 * breakAnim;
+        transform += ` translate(${shake},0)`;
+      }
+      pick.setAttribute('transform', transform);
+    }
+    if(cylinder){
+      cylinder.setAttribute('transform', `rotate(${cylinderRot} 150 160)`);
+    }
+    if(wrench){
+      // 张力扳手随锁芯转动
+      wrench.setAttribute('transform', `rotate(${cylinderRot * 0.5} 150 250)`);
+    }
+    if(angleVal) angleVal.textContent = Math.round(pickAngle);
+
+    // 张力条
+    const stressFill = document.getElementById('lock-stress-fill');
+    const stressVal = document.getElementById('lock-stress-val');
+    if(stressFill) stressFill.style.width = stress + '%';
+    if(stressVal) stressVal.textContent = Math.round(stress) + '%';
+    if(stressFill){
+      if(stress > 80) stressFill.style.background = 'var(--alert)';
+      else if(stress > 50) stressFill.style.background = 'var(--yellow)';
+      else stressFill.style.background = 'var(--green)';
+    }
+  }
+
+  /* ---------- HUD ---------- */
   function updateHUD(){
-    document.getElementById('mg2-timer-val').textContent = timeLeft;
-    document.getElementById('mg2-alarm-val').textContent = alarm;
+    const t = document.getElementById('lock-timer-val');
+    const p = document.getElementById('lock-picks-val');
+    const nf = document.getElementById('lock-noise-fill');
+    const nv = document.getElementById('lock-noise-val');
+    if(t) t.textContent = timeLeft;
+    if(p) p.textContent = picks;
+    if(nf) nf.style.width = noise + '%';
+    if(nv) nv.textContent = Math.round(noise) + '%';
   }
 
-  function render(){
-    const container = document.getElementById('mg2-grid');
-    container.innerHTML = '';
-    for(let r=0;r<4;r++){
-      for(let c=0;c<4;c++){
-        const tile = grid[r][c];
-        const div = document.createElement('div');
-        div.className = 'pipe-tile';
-        if(tile.fixed) div.classList.add('fixed');
-        if(tile.trap) div.classList.add('trap');
-        div.dataset.r = r; div.dataset.c = c;
-        div.innerHTML = tileSVG(tile);
-        if(!tile.fixed){
-          div.addEventListener('click', ()=> onTileClick(r,c));
-        }
-        container.appendChild(div);
-      }
+  function setStatus(msg){
+    const el = document.getElementById('lock-status');
+    if(el) el.textContent = msg;
+  }
+
+  /* ---------- 输入绑定 ---------- */
+  function bindInput(){
+    const stage = document.getElementById('lock-stage');
+
+    // 鼠标移动调整角度
+    stage.onmousemove = (e)=>{
+      if(!_active || tensioning) return;
+      const rect = stage.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const ratio = x / rect.width;
+      pickAngle = Math.max(0, Math.min(180, ratio * 180));
+    };
+
+    // 鼠标按下/松开 = 张力
+    stage.onmousedown = (e)=>{
+      e.preventDefault();
+      if(_active) { tensioning = true; AudioSys.sfx.click(); }
+    };
+    document.addEventListener('mouseup', onMouseUp);
+
+    // 键盘
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup', onKeyUp);
+  }
+
+  function onMouseUp(){
+    tensioning = false;
+  }
+
+  function onKeyDown(e){
+    if(!_active) return;
+    if(e.code === 'Space'){
+      e.preventDefault();
+      if(!tensioning){ tensioning = true; AudioSys.sfx.click(); }
+    } else if(e.code === 'ArrowLeft'){
+      e.preventDefault();
+      if(!tensioning) pickAngle = Math.max(0, pickAngle - 1);
+    } else if(e.code === 'ArrowRight'){
+      e.preventDefault();
+      if(!tensioning) pickAngle = Math.min(180, pickAngle + 1);
     }
   }
 
-  function tileSVG(tile){
-    const conns = (tile.type === 'start' || tile.type === 'end') ? BASE_CONN[tile.type] : BASE_CONN[tile.type];
-    const dirs = { N:[50,4], S:[50,96], E:[96,50], W:[4,50] };
-    let lines = '';
-    const color = tile.trap ? '#e74c3c' : (tile.type==='start' ? '#d4af37' : tile.type==='end' ? '#5cb85c' : '#c9a961');
-    conns.forEach(d=>{
-      const [x,y] = dirs[d];
-      lines += `<line x1="50" y1="50" x2="${x}" y2="${y}" stroke="${color}" stroke-width="11" stroke-linecap="round"/>`;
-    });
-    lines += `<circle cx="50" cy="50" r="9" fill="${color}"/>`;
-    let label = '';
-    if(tile.type==='start') label = `<text x="50" y="88" text-anchor="middle" fill="#d4af37" font-size="16" font-weight="bold">${I18N.getLang()==='en'?'S':'起'}</text>`;
-    if(tile.type==='end') label = `<text x="50" y="88" text-anchor="middle" fill="#5cb85c" font-size="16" font-weight="bold">${I18N.getLang()==='en'?'E':'终'}</text>`;
-    const rot = (tile.type==='start'||tile.type==='end') ? 0 : (tile.rot * 90);
-    return `<svg class="pipe-svg" viewBox="0 0 100 100" style="transform:rotate(${rot}deg)">${lines}${label}</svg>`;
-  }
-
-  function onTileClick(r,c){
-    const tile = grid[r][c];
-    if(tile.fixed) return;
-    AudioSys.sfx.click();
-    tile.rot = (tile.rot + 1) % 4;
-    render();
-    checkConnection();
-  }
-
-  /* BFS：从起点出发，沿匹配连接搜索 */
-  function bfs(avoidTraps){
-    const visited = Array.from({length:4},()=>Array(4).fill(false));
-    const parent = Array.from({length:4},()=>Array(4).fill(null));
-    const queue = [[0,0]];
-    visited[0][0] = true;
-    while(queue.length){
-      const [r,c] = queue.shift();
-      const tile = grid[r][c];
-      if(avoidTraps && tile.trap) continue;
-      const conns = getConnections(tile);
-      for(const d of conns){
-        const [dr,dc] = DELTA[d];
-        const nr = r+dr, nc = c+dc;
-        if(nr<0||nr>=4||nc<0||nc>=4||visited[nr][nc]) continue;
-        const nt = grid[nr][nc];
-        if(avoidTraps && nt.trap) continue;
-        const nconns = getConnections(nt);
-        if(nconns.includes(OPPOSITE[d])){
-          visited[nr][nc] = true;
-          parent[nr][nc] = [r,c];
-          queue.push([nr,nc]);
-        }
-      }
-    }
-    return { visited, parent, reached: visited[3][3] };
-  }
-
-  function getPath(parent){
-    const path = [];
-    let cur = [3,3];
-    while(cur){
-      path.push(cur);
-      cur = parent[cur[0]][cur[1]];
-    }
-    return path.reverse();
-  }
-
-  function checkConnection(){
-    // 先检查是否存在无陷阱的干净路径
-    const clean = bfs(true);
-    if(clean.reached){
-      highlightPath(getPath(clean.parent), false);
-      success();
-      return;
-    }
-    // 再检查是否存在含陷阱的连通路径
-    const any = bfs(false);
-    if(any.reached){
-      const path = getPath(any.parent);
-      const hasTrap = path.some(([r,c])=>grid[r][c].trap);
-      if(hasTrap){
-        if(!wasContaminated){
-          wasContaminated = true;
-          alarm++;
-          AudioSys.sfx.alert();
-          updateHUD();
-          SaveSys.showToast(I18N.t('mg2.trapWarn'));
-          if(alarm >= 3){ fail(); return; }
-        }
-        highlightPath(path, true);
-      }
-    } else {
-      wasContaminated = false;
-      clearHighlight();
+  function onKeyUp(e){
+    if(e.code === 'Space'){
+      tensioning = false;
     }
   }
 
-  function highlightPath(path, contaminated){
-    clearHighlight();
-    path.forEach(([r,c])=>{
-      const el = document.querySelector(`.pipe-tile[data-r="${r}"][data-c="${c}"]`);
-      if(el) el.classList.add('connected');
-    });
-  }
-  function clearHighlight(){
-    document.querySelectorAll('.pipe-tile.connected').forEach(el=>el.classList.remove('connected'));
+  function unbindInput(){
+    const stage = document.getElementById('lock-stage');
+    if(stage){ stage.onmousemove = null; stage.onmousedown = null; }
+    document.removeEventListener('mouseup', onMouseUp);
+    document.removeEventListener('keydown', onKeyDown);
+    document.removeEventListener('keyup', onKeyUp);
   }
 
+  /* ---------- 成功/失败 ---------- */
   function success(){
+    if(!_active) return;
     AudioSys.sfx.success();
     cleanup();
     onSuccess && onSuccess();
   }
+
   function fail(){
+    if(!_active) return;
     AudioSys.sfx.fail();
     cleanup();
     onFail && onFail();
   }
+
   function cleanup(){
     if(timer){ clearInterval(timer); timer = null; }
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    unbindInput();
+    tensioning = false;
     _active = false;
+    const el = document.querySelector('.lock-timer');
+    if(el) el.classList.remove('warning');
   }
 
   function refreshLabels(){
-    if(_active) render();
-  }
-
-  function resetLayout(){
-    AudioSys.sfx.click();
-    grid = initialGrid();
-    wasContaminated = false;
-    render();
-    clearHighlight();
+    if(_active){
+      setStatus(I18N.t('mg2.statusIdle'));
+    }
   }
 
   function bind(){
-    const btn = document.getElementById('mg2-reset');
-    if(btn) btn.addEventListener('click', resetLayout);
+    // 输入在 start() 中动态绑定
   }
 
   return { start, bind, cleanup, refreshLabels, get _active(){ return _active; } };

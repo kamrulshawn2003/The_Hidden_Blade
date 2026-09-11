@@ -47,6 +47,71 @@ window.Engine = (function(){
   };
   window.Game = Game;
 
+  /* ---------- 行为追踪 (Project Mirror 数据源) ---------- */
+  const Behavior = {
+    KEYS: ['stealth','combat','hacking','lockpicking','distraction','retreat'],
+    // 现有剧情选择 → 行为计数 映射（值相等才计数，避免重复计数）
+    HOOKS: [
+      { flag:{homecoming:'chase'},  counter:'combat'  },
+      { flag:{zhao:'threaten'},     counter:'combat'  },
+      { flag:{trustM:false},        counter:'stealth' },
+      { flag:{route:'director'},    counter:'hacking' },
+      { flag:{zhaokai:'bait'},      counter:'combat'  },
+      { flag:{message:'coords'},    counter:'hacking' },
+      { flag:{guchen:'attack'},     counter:'combat'  }
+    ],
+    init(){
+      if(!Game.flags.mirrorCounters || typeof Game.flags.mirrorCounters !== 'object'){
+        Game.flags.mirrorCounters = {};
+      }
+      this.KEYS.forEach(k=>{ if(typeof Game.flags.mirrorCounters[k] !== 'number') Game.flags.mirrorCounters[k] = 0; });
+    },
+    add(counter, amount){
+      this.init();
+      if(this.KEYS.indexOf(counter) < 0) return;
+      Game.flags.mirrorCounters[counter] += (amount || 1);
+    },
+    getCounters(){
+      this.init();
+      return Object.assign({}, Game.flags.mirrorCounters);
+    },
+    getTotal(){
+      const c = this.getCounters();
+      return this.KEYS.reduce((s,k)=> s + c[k], 0);
+    },
+    /* 归一化百分比 profile */
+    getProfile(){
+      const c = this.getCounters();
+      const total = this.getTotal() || 1;
+      const p = {};
+      this.KEYS.forEach(k=> p[k] = Math.round((c[k] / total) * 100));
+      return p;
+    },
+    /* 对剧情选择挂钩行为计数 */
+    onChoice(ch){
+      if(!ch || !ch.flag) return;
+      this.HOOKS.forEach(h=>{
+        for(const key in h.flag){
+          if(ch.flag[key] !== undefined && ch.flag[key] === h.flag[key]){
+            this.add(h.counter, 1);
+            return;
+          }
+        }
+      });
+    },
+    /* 应用小游戏返回的数值变更（与现有 clamp 一致） */
+    applyStats(stats){
+      if(!stats) return;
+      for(const k in stats){
+        if(Game.stats[k] !== undefined){
+          Game.stats[k] = Math.max(0, Math.min(100, Game.stats[k] + stats[k]));
+        }
+      }
+    }
+  };
+  window.Behavior = Behavior;
+  Behavior.init();
+
   /* ---------- 语言辅助：取当前语言的字段 ---------- */
   function L(node, field){
     if(!node) return '';
@@ -146,15 +211,50 @@ window.Engine = (function(){
     // 特殊节点类型
     if(node.type === 'minigame1'){
       MiniGame1.start(
-        (res)=>{ Game.flags.mg1 = 'success'; if(res && res.perfect) Achievements.unlock('ach_perfect'); loadNode(node.nextSuccess); },
-        ()=>{ Game.flags.mg1 = 'fail'; loadNode(node.nextFail); }
+        (res)=>{ Game.flags.mg1 = 'success'; Behavior.add('hacking', 1); if(res && res.perfect) Achievements.unlock('ach_perfect'); loadNode(node.nextSuccess); },
+        ()=>{ Game.flags.mg1 = 'fail'; Behavior.add('hacking', 1); loadNode(node.nextFail); }
       );
       return;
     }
     if(node.type === 'minigame2'){
       MiniGame2.start(
-        ()=>{ Game.flags.mg2 = 'success'; loadNode(node.nextSuccess); },
-        ()=>{ Game.flags.mg2 = 'fail'; loadNode(node.nextFail); }
+        ()=>{ Game.flags.mg2 = 'success'; Behavior.add('lockpicking', 1); loadNode(node.nextSuccess); },
+        ()=>{ Game.flags.mg2 = 'fail'; Behavior.add('lockpicking', 1); loadNode(node.nextFail); }
+      );
+      return;
+    }
+    if(node.type === 'minigame3'){
+      MiniGame3.start(
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); if(res && res.perfect) Achievements.unlock('ach_interrogator'); loadNode(node.nextSuccess); },
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); loadNode(node.nextFail); }
+      );
+      return;
+    }
+    if(node.type === 'minigame4'){
+      MiniGame4.start(
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); if(res && res.perfect) Achievements.unlock('ach_detective'); loadNode(node.nextSuccess); },
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); loadNode(node.nextFail); }
+      );
+      return;
+    }
+    if(node.type === 'minigame5'){
+      MiniGame5.start(
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); if(res && res.perfect) Achievements.unlock('ach_memory'); loadNode(node.nextSuccess); },
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); loadNode(node.nextFail); }
+      );
+      return;
+    }
+    if(node.type === 'minigame6'){
+      MiniGame6.start(
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); if(res && res.disrupted) Achievements.unlock('ach_unpredictable'); loadNode(node.nextSuccess); },
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); loadNode(node.nextFail); }
+      );
+      return;
+    }
+    if(node.type === 'minigame7'){
+      MiniGame7.start(
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); if(res && res.perfect) Achievements.unlock('ach_truth2'); loadNode(node.nextSuccess); },
+        (res)=>{ if(res && res.flags) Object.assign(Game.flags, res.flags); if(res && res.stats) Behavior.applyStats(res.stats); loadNode(node.nextFail); }
       );
       return;
     }
@@ -338,6 +438,7 @@ window.Engine = (function(){
       }
     }
     if(ch.achievement) Achievements.unlock(ch.achievement);
+    if(window.Behavior) Behavior.onChoice(ch);
     document.getElementById('choice-layer').classList.remove('active');
     loadNode(ch.next);
   }
