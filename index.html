@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hidden Blade · 隐秘之刃</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="stage">
+
+  <!-- ============ 标题界面 ============ -->
+  <section id="screen-title" class="screen active">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="title-layout">
+      <div class="title-left">
+        <img class="title-logo" src="assets/title/logo.png" alt="The Hidden Blade">
+        <div class="title-sub" data-i18n="title.sub">一场关于救赎、复仇与正义的抉择</div>
+        <div class="title-buttons">
+          <button class="btn-primary" data-action="new-game" data-i18n="btn.newGame">开始游戏</button>
+          <button class="btn-primary" id="btn-saved-game" data-action="load-game" data-i18n="btn.savedGame">存档游戏</button>
+          <button class="btn-primary" data-action="open-settings" data-i18n="btn.settings">系统设置</button>
+          <button class="btn-primary" data-action="open-gallery" data-i18n="btn.gallery">媒体画廊</button>
+          <button class="btn-primary" data-action="open-achievements" data-i18n="btn.achievements">成就一览</button>
+          <button class="btn-primary" data-action="open-team" data-i18n="btn.ourTeam">制作团队</button>
+        </div>
+      </div>
+      <div class="title-right">
+        <div class="title-cast-halo"></div>
+        <img class="title-sprite" src="assets/title/people.png" alt="Cast">
+      </div>
+    </div>
+    <div class="title-footer" data-i18n="title.footer">HTML5 · CSS3 · JavaScript  |  4班 留在家 出品</div>
+  </section>
+
+  <!-- ============ 设置界面 ============ -->
+  <section id="screen-settings" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="settings-layout">
+      <aside class="settings-side">
+        <div class="side-logo">
+          <div class="side-logo-en">THE HIDDEN BLADE</div>
+          <div class="side-logo-cn">隐秘之刃</div>
+        </div>
+        <div class="side-title" data-i18n="settings.title">设置界面</div>
+        <nav class="settings-nav">
+          <button class="nav-tab active" data-tab="audio" data-i18n="settings.audio">音频设置</button>
+          <button class="nav-tab" data-tab="text" data-i18n="settings.text">文本设置</button>
+          <button class="nav-tab" data-tab="display" data-i18n="settings.display">显示设置</button>
+          <button class="nav-tab" data-tab="language" data-i18n="settings.language">语言</button>
+        </nav>
+        <div class="settings-side-btns">
+          <button class="btn-ghost" data-action="reset-settings" data-i18n="settings.reset">恢复默认</button>
+          <button class="btn-primary" data-action="save-settings" data-i18n="settings.saveReturn">保存并返回</button>
+        </div>
+      </aside>
+      <div class="settings-panel">
+        <div class="tab-content active" id="tab-audio">
+          <h2 data-i18n="settings.audio">音频设置</h2>
+          <div class="setting-row"><label data-i18n="settings.master">主音量</label><input type="range" min="0" max="100" data-setting="master"><span class="val">70</span></div>
+          <div class="setting-row"><label data-i18n="settings.bgm">背景音乐</label><input type="range" min="0" max="100" data-setting="bgm"><span class="val">60</span></div>
+          <div class="setting-row"><label data-i18n="settings.sfx">音效音量</label><input type="range" min="0" max="100" data-setting="sfx"><span class="val">80</span></div>
+          <div class="setting-row"><label data-i18n="settings.voice">语音音量</label><input type="range" min="0" max="100" data-setting="voice"><span class="val">100</span></div>
+        </div>
+        <div class="tab-content" id="tab-text">
+          <h2 data-i18n="settings.text">文本设置</h2>
+          <div class="setting-row"><label data-i18n="settings.textSpeed">文字显示速度</label><input type="range" min="1" max="5" data-setting="textSpeed"><span class="val">3</span></div>
+          <div class="setting-row"><label data-i18n="settings.fontSize">字号</label><input type="range" min="1" max="3" data-setting="fontSize"><span class="val">2</span></div>
+          <div class="setting-row check-row"><label data-i18n="settings.autoPlay">自动播放</label><input type="checkbox" data-setting="autoPlay"></div>
+          <div class="setting-row check-row"><label data-i18n="settings.skipRead">跳过已读剧情 (SKIP)</label><input type="checkbox" data-setting="skipRead"></div>
+        </div>
+        <div class="tab-content" id="tab-display">
+          <h2 data-i18n="settings.display">显示设置</h2>
+          <div class="setting-row"><label data-i18n="settings.brightness">画面亮度</label><input type="range" min="50" max="150" data-setting="brightness"><span class="val">100</span></div>
+          <div class="setting-row check-row"><label data-i18n="settings.spriteShadow">角色立绘阴影</label><input type="checkbox" data-setting="spriteShadow" checked></div>
+          <div class="setting-row check-row"><label data-i18n="settings.screenShake">画面震动效果</label><input type="checkbox" data-setting="screenShake" checked></div>
+          <div class="setting-row check-row"><label data-i18n="settings.sfxOn">音效提示</label><input type="checkbox" data-setting="sfxOn" checked></div>
+        </div>
+        <div class="tab-content" id="tab-language">
+          <h2 data-i18n="settings.language">语言</h2>
+          <div class="setting-row lang-row">
+            <label data-i18n="settings.languageLabel">界面语言</label>
+            <div class="lang-options">
+              <button class="lang-opt" data-lang="en">English</button>
+              <button class="lang-opt" data-lang="zh">中文</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 存档 / 读档界面 ============ -->
+  <section id="screen-save" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="save-layout">
+      <div class="save-header">
+        <h2 id="save-mode-title" data-i18n="save.loadTitle">读取存档</h2>
+        <div class="save-tabs">
+          <button class="save-tab active" data-save-tab="manual" data-i18n="save.manual">手动存档</button>
+          <button class="save-tab" data-save-tab="quick" data-i18n="save.quick">快速存档</button>
+          <button class="save-tab" data-save-tab="auto" data-i18n="save.auto">自动存档</button>
+        </div>
+        <button class="btn-ghost" data-action="back-from-save" data-i18n="save.back">返回</button>
+      </div>
+      <div class="save-grid" id="save-grid"></div>
+    </div>
+    <div class="modal-overlay" id="save-confirm-modal">
+      <div class="modal-box">
+        <div class="modal-title" id="save-confirm-title" data-i18n="save.loadConfirm">读取确认</div>
+        <div class="modal-text" id="save-confirm-text" data-i18n="save.loadQ">是否读取此存档？当前未保存的进度将会丢失。</div>
+        <div class="modal-btns">
+          <button class="btn-ghost" data-action="cancel-save-modal" data-i18n="save.cancel">取消</button>
+          <button class="btn-primary" id="save-confirm-ok" data-i18n="save.confirm">确认</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 画廊界面 ============ -->
+  <section id="screen-gallery" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="gallery-layout">
+      <aside class="gallery-side">
+        <div class="side-logo">
+          <div class="side-logo-en">THE HIDDEN BLADE</div>
+          <div class="side-logo-cn">隐秘之刃</div>
+        </div>
+        <div class="side-title" data-i18n="gallery.title">媒体画廊</div>
+        <nav class="gallery-nav">
+          <button class="nav-tab active" data-gallery="characters" data-i18n="gallery.characters">角色图鉴</button>
+          <button class="nav-tab" data-gallery="tips" data-i18n="gallery.tips">Tips 词条</button>
+        </nav>
+        <button class="btn-ghost" data-action="back-from-gallery" data-i18n="gallery.back">返回首页</button>
+      </aside>
+      <div class="gallery-content" id="gallery-content"></div>
+    </div>
+  </section>
+
+  <!-- ============ 成就界面 ============ -->
+  <section id="screen-achievements" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="ach-layout">
+      <h2 data-i18n="ach.title">成就一览</h2>
+      <div class="ach-grid" id="ach-grid"></div>
+      <button class="btn-primary" data-action="back-from-achievements" data-i18n="ach.back">返回</button>
+    </div>
+  </section>
+
+  <!-- ============ 制作团队界面 ============ -->
+  <section id="screen-team" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="team-layout">
+      <h2 class="team-title" data-i18n="team.title">制作团队</h2>
+      <p class="team-subtitle" data-i18n="team.subtitle">隐秘之刃背后的创作者</p>
+      <div class="team-grid" id="team-grid">
+        <!-- Team members are rendered by js/team.js -->
+      </div>
+      <button class="btn-primary" data-action="back-from-team" data-i18n="team.back">返回首页</button>
+    </div>
+  </section>
+
+  <!-- ============ 游戏主界面 (视觉小说) ============ -->
+  <section id="screen-game" class="screen">
+    <div class="game-bg" id="game-bg"></div>
+    <div class="sprite-layer" id="sprite-layer">
+      <div class="sprite slot-left" id="sprite-left"></div>
+      <div class="sprite slot-center" id="sprite-center"></div>
+      <div class="sprite slot-right" id="sprite-right"></div>
+    </div>
+    <div class="game-topbar">
+      <button class="icon-btn" id="btn-menu" title="Menu">≡</button>
+      <button class="icon-btn back-btn" id="btn-back" title="Back" data-i18n="game.back">BACK</button>
+    </div>
+    <div class="dialog-box" id="dialog-box">
+      <div class="speaker-name" id="speaker-name"></div>
+      <div class="dialog-text" id="dialog-text"></div>
+      <div class="dialog-indicator" id="dialog-indicator">▼</div>
+    </div>
+    <div class="choice-layer" id="choice-layer"></div>
+  </section>
+
+  <!-- 游戏内快捷菜单 -->
+  <div class="quick-menu-overlay" id="quick-menu">
+    <div class="quick-menu-box">
+      <div class="qm-title" data-i18n="qm.title">系统菜单</div>
+      <button class="btn-primary" data-action="qm-resume" data-i18n="qm.resume">继续游戏</button>
+      <button class="btn-primary" data-action="qm-save" data-i18n="qm.save">存档</button>
+      <button class="btn-primary" data-action="qm-load" data-i18n="qm.load">读档</button>
+      <button class="btn-primary" data-action="qm-settings" data-i18n="qm.settings">设置</button>
+      <button class="btn-ghost" data-action="qm-title" data-i18n="qm.backToTitle">返回标题</button>
+    </div>
+  </div>
+
+  <!-- ============ 小游戏 1：入侵协议 (Breach Protocol) ============ -->
+  <section id="screen-minigame1" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_server.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="breach-layout">
+      <div class="breach-top">
+        <div class="breach-title" data-i18n="mg1.title">BREACH PROTOCOL · 入侵协议</div>
+        <div class="breach-timer"><span data-i18n="mg1.timer">时间</span>：<span id="breach-timer-val">45</span>s</div>
+      </div>
+      <div class="breach-main">
+        <div class="breach-matrix-wrap">
+          <div class="breach-matrix-label" data-i18n="mg1.matrix">代码矩阵 / CODE MATRIX</div>
+          <div class="breach-matrix" id="breach-matrix"></div>
+          <div class="breach-hint" id="breach-hint" data-i18n="mg1.hintRow">从任意行选择第一个代码</div>
+        </div>
+        <div class="breach-side">
+          <div class="breach-targets">
+            <div class="breach-side-label" data-i18n="mg1.targets">上传序列 / TARGET SEQUENCES</div>
+            <div id="breach-targets"></div>
+          </div>
+          <div class="breach-buffer">
+            <div class="breach-side-label" data-i18n="mg1.buffer">上传缓冲 / UPLOAD BUFFER</div>
+            <div class="breach-buffer-slots" id="breach-buffer"></div>
+          </div>
+          <div class="breach-status" id="breach-status"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 小游戏 2：资金链追踪 ============ -->
+  <section id="screen-minigame2" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_safehouse.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="mg2-layout">
+      <div class="mg2-top">
+        <div class="mg2-title" data-i18n="mg2.title">行动二：地下资金链追查</div>
+        <div class="mg2-timer"><span data-i18n="mg2.timer">倒计时</span>：<span id="mg2-timer-val">45</span>s</div>
+        <div class="mg2-alarm"><span data-i18n="mg2.alarm">警报</span>：<span id="mg2-alarm-val">0</span>/3</div>
+      </div>
+      <div class="mg2-main">
+        <div class="mg2-grid" id="mg2-grid"></div>
+        <div class="mg2-side">
+          <div class="mg2-legend">
+            <div class="legend-title" data-i18n="mg2.legend">图例</div>
+            <div class="legend-item"><span class="lg-tile lg-start"></span><span data-i18n="mg2.start">起点：企业银行</span></div>
+            <div class="legend-item"><span class="lg-tile lg-end"></span><span data-i18n="mg2.end">终点：避难所坐标</span></div>
+            <div class="legend-item"><span class="lg-tile lg-pipe"></span><span data-i18n="mg2.pipe">管道节点（点击旋转90°）</span></div>
+            <div class="legend-item"><span class="lg-tile lg-trap"></span><span data-i18n="mg2.trap">防火墙陷阱（经过触发警报）</span></div>
+          </div>
+          <div class="mg2-hint" data-i18n="mg2.hint">在倒计时结束前，旋转节点将起点与终点连通。</div>
+          <button class="btn-ghost" id="mg2-reset" data-i18n="mg2.reset">重置布局</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 结局界面 ============ -->
+  <section id="screen-ending" class="screen">
+    <div class="ending-bg" id="ending-bg"></div>
+    <div class="bg-vignette"></div>
+    <div class="ending-content">
+      <div class="ending-tag" id="ending-tag">ENDING</div>
+      <h1 class="ending-title" id="ending-title"></h1>
+      <div class="ending-text" id="ending-text"></div>
+      <div class="ending-btns">
+        <button class="btn-primary" data-action="ending-title" data-i18n="ending.backTitle">返回标题</button>
+        <button class="btn-ghost" data-action="ending-gallery" data-i18n="ending.gallery">查看画廊</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast 通知 -->
+  <div id="toast" class="toast"></div>
+
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/story.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/save.js"></script>
+<script src="js/achievements.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/team.js"></script>
+<script src="js/minigame1.js"></script>
+<script src="js/minigame2.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
