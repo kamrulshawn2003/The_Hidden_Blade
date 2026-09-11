@@ -228,28 +228,62 @@
     </div>
   </section>
 
-  <!-- ============ 小游戏 2：资金链追踪 ============ -->
+  <!-- ============ 小游戏 2：精密撬锁 ============ -->
   <section id="screen-minigame2" class="screen">
     <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_safehouse.png')"></div>
     <div class="bg-vignette"></div>
-    <div class="mg2-layout">
-      <div class="mg2-top">
-        <div class="mg2-title" data-i18n="mg2.title">行动二：地下资金链追查</div>
-        <div class="mg2-timer"><span data-i18n="mg2.timer">倒计时</span>：<span id="mg2-timer-val">45</span>s</div>
-        <div class="mg2-alarm"><span data-i18n="mg2.alarm">警报</span>：<span id="mg2-alarm-val">0</span>/3</div>
+    <div class="lock-layout">
+      <div class="lock-top">
+        <div class="lock-title" data-i18n="mg2.title">PRECISION LOCKPICKING · 精密撬锁</div>
+        <div class="lock-timer"><span data-i18n="mg2.timer">时间</span>：<span id="lock-timer-val">60</span>s</div>
+        <div class="lock-picks"><span data-i18n="mg2.picks">撬针</span>：<span id="lock-picks-val">3</span></div>
       </div>
-      <div class="mg2-main">
-        <div class="mg2-grid" id="mg2-grid"></div>
-        <div class="mg2-side">
-          <div class="mg2-legend">
-            <div class="legend-title" data-i18n="mg2.legend">图例</div>
-            <div class="legend-item"><span class="lg-tile lg-start"></span><span data-i18n="mg2.start">起点：企业银行</span></div>
-            <div class="legend-item"><span class="lg-tile lg-end"></span><span data-i18n="mg2.end">终点：避难所坐标</span></div>
-            <div class="legend-item"><span class="lg-tile lg-pipe"></span><span data-i18n="mg2.pipe">管道节点（点击旋转90°）</span></div>
-            <div class="legend-item"><span class="lg-tile lg-trap"></span><span data-i18n="mg2.trap">防火墙陷阱（经过触发警报）</span></div>
+      <div class="lock-main">
+        <div class="lock-stage" id="lock-stage">
+          <svg class="lock-svg" viewBox="0 0 300 340">
+            <circle cx="150" cy="160" r="130" fill="url(#brassGrad)" stroke="#8B6914" stroke-width="4"/>
+            <circle cx="150" cy="160" r="110" fill="#2a1f0a" stroke="#5a4a1a" stroke-width="2"/>
+            <g id="lock-cylinder" transform="rotate(0 150 160)">
+              <circle cx="150" cy="160" r="85" fill="#3d2f10" stroke="#8B6914" stroke-width="3"/>
+              <rect x="140" y="125" width="20" height="45" rx="4" fill="#111"/>
+              <circle cx="150" cy="170" r="14" fill="#111"/>
+              <line x1="150" y1="80" x2="150" y2="95" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+            </g>
+            <g id="tension-wrench" transform="rotate(0 150 250)">
+              <rect x="143" y="245" width="14" height="35" rx="3" fill="#666" stroke="#444" stroke-width="1"/>
+              <rect x="130" y="275" width="40" height="10" rx="3" fill="#888" stroke="#555" stroke-width="1"/>
+            </g>
+            <g id="lock-pick" transform="rotate(0 150 160)">
+              <line x1="150" y1="160" x2="150" y2="50" stroke="#c0c0c0" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="150" cy="50" r="4" fill="#e0e0e0"/>
+            </g>
+            <defs>
+              <radialGradient id="brassGrad" cx="40%" cy="35%">
+                <stop offset="0%" stop-color="#d4af37"/>
+                <stop offset="60%" stop-color="#b8941f"/>
+                <stop offset="100%" stop-color="#8B6914"/>
+              </radialGradient>
+            </defs>
+          </svg>
+          <div class="lock-angle-display"><span id="lock-angle-val">90</span>°</div>
+        </div>
+        <div class="lock-side">
+          <div class="lock-stress">
+            <div class="lock-side-label" data-i18n="mg2.stress">张力 / STRESS</div>
+            <div class="lock-stress-bar"><div class="lock-stress-fill" id="lock-stress-fill"></div></div>
+            <div class="lock-stress-val" id="lock-stress-val">0%</div>
           </div>
-          <div class="mg2-hint" data-i18n="mg2.hint">在倒计时结束前，旋转节点将起点与终点连通。</div>
-          <button class="btn-ghost" id="mg2-reset" data-i18n="mg2.reset">重置布局</button>
+          <div class="lock-noise">
+            <div class="lock-side-label" data-i18n="mg2.noise">噪音 / NOISE</div>
+            <div class="lock-noise-bar"><div class="lock-noise-fill" id="lock-noise-fill"></div></div>
+            <div class="lock-noise-val" id="lock-noise-val">0%</div>
+          </div>
+          <div class="lock-status" id="lock-status" data-i18n="mg2.statusIdle">移动鼠标调整撬针角度，按住空格施加张力</div>
+          <div class="lock-hint" data-i18n="mg2.hint">在±5°范围内按住空格可完全转动锁芯。错误角度持续1.5秒会折断撬针！</div>
+          <div class="lock-controls">
+            <div><kbd>←</kbd> <kbd>→</kbd> <span data-i18n="mg2.ctrlAngle">微调角度</span></div>
+            <div><kbd>SPACE</kbd> <span data-i18n="mg2.ctrlTension">按住施加张力</span></div>
+          </div>
         </div>
       </div>
     </div>
