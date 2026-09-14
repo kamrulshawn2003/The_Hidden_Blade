@@ -15,6 +15,7 @@
     MiniGame2.bind();
     MiniGame3.bind();
     Engine.bind();
+    if(window.VoiceSys) VoiceSys.init();
 
     // 语言切换按钮（已移除 UI，保留 i18n 机制；如需恢复，添加带 data-i18n-lang 的元素即可）
     const langBtn = document.getElementById('lang-toggle');

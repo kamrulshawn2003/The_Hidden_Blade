@@ -6,6 +6,8 @@ window.Engine = (function(){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     const el = document.getElementById('screen-'+id);
     if(el) el.classList.add('active');
+    // 离开剧情/结局画面时停止朗读
+    if(id !== 'game' && id !== 'ending' && window.VoiceSys) VoiceSys.stop();
     if(id === 'title' && typeof window.updateSavedGameButton === 'function'){
       window.updateSavedGameButton();
     }
@@ -140,6 +142,7 @@ window.Engine = (function(){
 
     // 特殊节点类型
     if(node.type === 'minigame1'){
+      if(window.VoiceSys) VoiceSys.stop();
       MiniGame1.start(
         (res)=>{ Game.flags.mg1 = 'success'; if(res && res.perfect) Achievements.unlock('ach_perfect'); loadNode(node.nextSuccess); },
         ()=>{ Game.flags.mg1 = 'fail'; loadNode(node.nextFail); }
@@ -147,6 +150,7 @@ window.Engine = (function(){
       return;
     }
     if(node.type === 'minigame2'){
+      if(window.VoiceSys) VoiceSys.stop();
       MiniGame2.start(
         ()=>{ Game.flags.mg2 = 'success'; loadNode(node.nextSuccess); },
         ()=>{ Game.flags.mg2 = 'fail'; loadNode(node.nextFail); }
@@ -154,6 +158,7 @@ window.Engine = (function(){
       return;
     }
     if(node.type === 'minigame3'){
+      if(window.VoiceSys) VoiceSys.stop();
       MiniGame3.start(
         ()=>{ Game.flags.mg3 = 'success'; loadNode(node.nextSuccess); },
         ()=>{ Game.flags.mg3 = 'fail'; loadNode(node.nextFail); }
@@ -193,7 +198,10 @@ window.Engine = (function(){
 
     // 文本
     const textEl = document.getElementById('dialog-text');
-    typewrite(L(node, 'text') || '', textEl);
+    const nodeText = L(node, 'text') || '';
+    typewrite(nodeText, textEl);
+    // 角色语音：按当前说话者朗读本句台词
+    if(window.VoiceSys) VoiceSys.speak(L(node, 'speaker') || '', nodeText);
 
     // 选项
     const choiceLayer = document.getElementById('choice-layer');
@@ -236,6 +244,7 @@ window.Engine = (function(){
     document.getElementById('ending-title').textContent = L(node, 'title') || 'Ending';
     document.getElementById('ending-text').textContent = L(node, 'text') || '';
     showScreen('ending');
+    if(window.VoiceSys) VoiceSys.speak(L(node, 'speaker') || '旁白', L(node, 'text') || '');
     AudioSys.sfx.achievement();
   }
 
@@ -255,6 +264,8 @@ window.Engine = (function(){
     clearInterval(Game.typeTimer);
     Game.typing = false;
     document.getElementById('dialog-text').textContent = L(node, 'text') || '';
+    // 切换语言后按新语言重新朗读
+    if(window.VoiceSys) VoiceSys.speak(L(node, 'speaker') || '', L(node, 'text') || '');
     // 刷新选项
     const choiceLayer = document.getElementById('choice-layer');
     if(node.choices && node.choices.length && choiceLayer.classList.contains('active')){
@@ -311,6 +322,7 @@ window.Engine = (function(){
     Game.inGame = false;
     clearInterval(Game.typeTimer);
     clearTimeout(Game.autoTimer);
+    if(window.VoiceSys) VoiceSys.stop();
     closeQuickMenu();
     showScreen('title');
   }

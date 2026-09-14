@@ -9,45 +9,45 @@ window.TeamPage = (function(){
      ============================================================ */
   const members = [
     {
-      name: '成员一',
-      nameEn: 'Member One',
-      role: '项目负责人 / 导演',
-      roleEn: 'Project Lead / Director',
+      name: '张引弘',
+      nameEn: 'Derren',
+      role: '项目负责人 / 测试',
+      roleEn: 'Project Lead / Testing',
       img: './assets/team/derren.jpg'
     },
     {
-      name: '成员二',
-      nameEn: 'Member Two',
+      name: '孙瑞浩',
+      nameEn: 'Sun Ruihao',
       role: '剧本 / 编剧',
       roleEn: 'Story & Script',
       img: './assets/team/sun.jpg'
     },
     {
-      name: '成员三',
-      nameEn: 'Member Three',
+      name: '林芩妤',
+      nameEn: 'Viennay Lim',
       role: '美术 / 设计',
       roleEn: 'Art & Design',
       img: './assets/team/vienay.jpg'
     },
     {
-      name: '成员四',
-      nameEn: 'Member Four',
+      name: '尚杰',
+      nameEn: 'Shawn',
       role: '程序开发',
       roleEn: 'Programming',
       img: './assets/team/kamrul.jpg'
     },
     {
-      name: '成员五',
-      nameEn: 'Member Five',
-      role: '音效 / 音乐',
-      roleEn: 'Sound & Music',
+      name: '涂展瑆',
+      nameEn: 'Fedrick',
+      role: '剧本 / 编剧',
+      roleEn: 'Story & Script',
       img: './assets/team/fedrick.jpg'
     },
     {
-      name: '成员六',
-      nameEn: 'Member Six',
-      role: '测试 / 质检',
-      roleEn: 'Testing & QA',
+      name: '李佳琳',
+      nameEn: 'Jessica',
+      role: '首席信息官',
+      roleEn: 'CIO',
       img: './assets/team/jessica.jpg'
     }
   ];

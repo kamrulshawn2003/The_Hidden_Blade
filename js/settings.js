@@ -1,7 +1,7 @@
 /* ===== 设置系统 ===== */
 window.Settings = (function(){
   const KEY = 'thb_settings';
-  const defaults = { master:80, bgm:80, sfx:80, voice:100, textSpeed:3, fontSize:2, autoPlay:false, skipRead:false, brightness:100, spriteShadow:true, screenShake:true, sfxOn:true, bgmOn:true };
+  const defaults = { master:80, bgm:80, sfx:80, voice:100, textSpeed:3, fontSize:2, autoPlay:false, skipRead:false, brightness:100, spriteShadow:true, screenShake:true, sfxOn:true, bgmOn:true, voiceOn:true };
   let data = load();
 
   function load(){
@@ -21,6 +21,8 @@ window.Settings = (function(){
 
   function apply(){
     AudioSys.applySettings(data);
+    // 语音旁白开关
+    if(window.VoiceSys) VoiceSys.setEnabled(!!data.voiceOn);
     // 画面亮度
     const stage = document.getElementById('stage');
     if(stage) stage.style.filter = `brightness(${data.brightness}%)`;
