@@ -44,24 +44,8 @@ window.I18N = (function(){
       'settings.sfxOn': 'Sound Effects',
 
       /* 存档界面 */
-      'save.loadTitle': 'Load Game',
-      'save.saveTitle': 'Save Game',
-      'save.manual': 'Manual',
-      'save.quick': 'Quick',
-      'save.auto': 'Auto',
-      'save.back': 'Back',
-      'save.empty': 'Empty Slot',
-      'save.saveConfirm': 'Save Confirm',
-      'save.loadConfirm': 'Load Confirm',
-      'save.overwriteQ': 'Overwrite this save slot?',
-      'save.saveToQ': 'Save to this slot?',
-      'save.loadQ': 'Load this save? Current unsaved progress will be lost.',
-      'save.cancel': 'Cancel',
-      'save.confirm': 'Confirm',
       'save.saved': 'Game saved.',
-      'save.loaded': 'Game loaded.',
-      'save.quickSaved': 'Quick save complete.',
-      'save.emptySlot': 'This slot is empty.',
+      'save.empty': 'No save found.',
 
       /* 画廊 */
       'gallery.title': 'Gallery',
@@ -88,8 +72,8 @@ window.I18N = (function(){
       /* 游戏界面 */
       'game.back': 'BACK',
 
-      /* 小游戏 1 */
-      'mg1.title': 'BREACH PROTOCOL · Su Lan',
+      /* 小游戏 1：系统入侵 */
+      'mg1.title': 'SYSTEM BREACH',
       'mg1.timer': 'TIME',
       'mg1.matrix': 'CODE MATRIX',
       'mg1.targets': 'TARGET SEQUENCES',
@@ -101,48 +85,64 @@ window.I18N = (function(){
       'mg1.uploaded': 'Sequence uploaded',
       'mg1.primaryDone': 'Primary sequence uploaded — breach successful! Keep going for bonus data.',
 
-      /* 小游戏 2 */
-      'mg2.title': 'PRECISION LOCKPICKING',
-      'mg2.timer': 'Time',
-      'mg2.picks': 'Picks',
-      'mg2.stress': 'Tension',
-      'mg2.noise': 'Noise',
-      'mg2.statusIdle': 'Move mouse to set pick angle, hold SPACE to apply tension',
-      'mg2.pickBroken': 'Pick snapped! Noise +30%. Remaining picks reduced.',
-      'mg2.hint': 'Hold SPACE within ±5° of the sweet spot to fully rotate the cylinder. Holding at a wrong angle for 1.5s snaps the pick!',
-      'mg2.ctrlAngle': 'Fine-tune angle',
-      'mg2.ctrlTension': 'Hold to apply tension',
+      /* 小游戏 2：仓库潜入 */
+      'mg2.title': 'WAREHOUSE INFILTRATION',
+      'mg2.mission': 'Mission: reach the intel terminal (◆) at the far right without being spotted.',
+      'mg2.alert': 'ALERT',
+      'mg2.statusMove': 'Run with ←/→ (A/D), jump with ↑/W/Space. Stay out of the guards\' sight cones — hide in the shadows!',
+      'mg2.hint': 'Guards patrol the warehouse and scan with vision cones. Being seen fills the ALERT meter — if it maxes out, you are caught. Dark shadow zones hide you from sight.',
+      'mg2.ctrlMove': 'Run',
+      'mg2.ctrlJump': 'Jump',
+      'mg2.captured': 'Alert maxed out — you have been caught!',
+      'mg2.winText': 'INTEL SECURED!',
+      'mg2.intelLabel': 'INTEL',
+      'mg2.chipsDone': 'Intel: ',
+      'mg2.perfect': 'PERFECT! All intel secured!',
+
+      /* 小游戏 3：最终对决 */
+      'mg3.title': 'FINAL DUEL · Director Shen',
+      'mg3.you': 'RAVEN',
+      'mg3.shen': 'SHEN',
+      'mg3.ctrlMove': 'Move',
+      'mg3.ctrlJump': 'Jump',
+      'mg3.ctrlPunch': 'Punch',
+      'mg3.ctrlKick': 'Kick',
+      'mg3.winTag': 'Shen has been defeated. Justice prevails!',
+      'mg3.loseTag': 'Raven has fallen...',
+      'mg3.roundTag': 'ROUND',
+      'mg3.fightTag': 'FIGHT!',
+      'mg3.hitsTag': 'HITS',
+      'mg3.flawlessTag': 'FLAWLESS VICTORY!',
 
       /* 结局 */
       'ending.backTitle': 'Back to Title',
       'ending.gallery': 'View Gallery',
 
       /* 章节名 */
-      'chapter.s1': 'Chapter 1 · School Bullying Incident',
-      'chapter.s2': 'Chapter 2 · The Kidnapping of Lin Yu',
-      'chapter.mg1': 'Chapter 3 · HQ Infiltration',
-      'chapter.mg2': 'Chapter 4 · Financial Trace',
-      'chapter.final': 'Chapter 5 · Final Showdown',
+      'chapter.c1': 'Scene 1 · Operation Homecoming',
+      'chapter.c2': 'Scene 2 · The Unintended Signal',
+      'chapter.c3': 'Scene 3 · The Kidnapping',
+      'chapter.c4': 'Scene 4 · Reunited',
+      'chapter.c5': 'Scene 5 · Warehouse Infiltration',
+      'chapter.c6': 'Scene 6 · Final Confrontation',
       'chapter.ending': 'Ending',
-      'chapter.act1': 'Act I · The Life Raven Buried',
-      'chapter.act2': 'Act II · Raven Returns',
-      'chapter.act3': 'Act III · The People Behind the Mirror',
-      'chapter.act4': 'Act IV · Break the Prediction',
       'chapter.default': 'The Hidden Blade',
 
       /* 成就 */
-      'ach.peace.name': 'Peaceful Father',
-      'ach.peace.desc': 'Unlock the True Justice Ending.',
-      'ach.vengeance.name': 'Vengeful Ghost',
-      'ach.vengeance.desc': 'Unlock the Vengeance Ending.',
+      'ach.corruption.name': 'Web of Corruption',
+      'ach.corruption.desc': 'Reach Ending 1: Web of Corruption.',
+      'ach.trapped.name': 'Trapped in the Shadows',
+      'ach.trapped.desc': 'Reach Ending 2: Trapped in the Shadows.',
+      'ach.triumph.name': 'The Villain\'s Triumph',
+      'ach.triumph.desc': 'Reach Ending 3: The Villain\'s Triumph.',
+      'ach.sacrifice.name': 'A Father\'s Sacrifice',
+      'ach.sacrifice.desc': 'Reach Ending 4: A Father\'s Sacrifice.',
+      'ach.justice.name': 'True Justice',
+      'ach.justice.desc': 'Reach Ending 5: True Justice.',
       'ach.reunion.name': 'Old Team Reunited',
-      'ach.reunion.desc': 'Successfully recruit both Gu Chen and Su Lan.',
-      'ach.perfect.name': 'Perfect Infiltration',
-      'ach.perfect.desc': 'Complete Mission 1 with zero detection.',
-      'ach.truth.name': 'Truth Exposed',
-      'ach.truth.desc': 'Publicly reveal all core evidence of the conspiracy.',
-      'ach.secret.name': 'Mirror Breaker',
-      'ach.secret.desc': 'Unlock the secret ending: Rewrite Mirror.'
+      'ach.reunion.desc': 'Reunite with Su Lan and Gu Chen on the Private Route.',
+      'ach.perfect.name': 'Perfect Breach',
+      'ach.perfect.desc': 'Complete the System Breach minigame with zero errors.'
     },
 
     zh: {
@@ -183,24 +183,8 @@ window.I18N = (function(){
       'settings.screenShake': '画面震动效果',
       'settings.sfxOn': '音效提示',
 
-      'save.loadTitle': '读取存档',
-      'save.saveTitle': '保存存档',
-      'save.manual': '手动存档',
-      'save.quick': '快速存档',
-      'save.auto': '自动存档',
-      'save.back': '返回',
-      'save.empty': '空档位',
-      'save.saveConfirm': '保存确认',
-      'save.loadConfirm': '读取确认',
-      'save.overwriteQ': '是否覆盖此存档？',
-      'save.saveToQ': '是否保存到此档位？',
-      'save.loadQ': '是否读取此存档？当前未保存的进度将会丢失。',
-      'save.cancel': '取消',
-      'save.confirm': '确认',
       'save.saved': '存档成功',
-      'save.loaded': '读取成功',
-      'save.quickSaved': '已快速存档',
-      'save.emptySlot': '该档位为空',
+      'save.empty': '没有找到存档',
 
       'gallery.title': '媒体画廊',
       'gallery.scenes': '场景图集',
@@ -221,9 +205,10 @@ window.I18N = (function(){
       'qm.settings': '设置',
       'qm.backToTitle': '返回标题',
 
+      /* 游戏界面 */
       'game.back': 'BACK',
 
-      'mg1.title': '入侵协议 · 苏岚',
+      'mg1.title': '系统入侵',
       'mg1.timer': '时间',
       'mg1.matrix': '代码矩阵',
       'mg1.targets': '上传序列',
@@ -235,44 +220,59 @@ window.I18N = (function(){
       'mg1.uploaded': '序列已上传',
       'mg1.primaryDone': '主序列已上传——入侵成功！继续可获取额外数据。',
 
-      'mg2.title': '精密撬锁',
-      'mg2.timer': '时间',
-      'mg2.picks': '撬针',
-      'mg2.stress': '张力',
-      'mg2.noise': '噪音',
-      'mg2.statusIdle': '移动鼠标调整撬针角度，按住空格施加张力',
-      'mg2.pickBroken': '撬针折断！噪音 +30%。剩余撬针减少。',
-      'mg2.hint': '在甜蜜点±5°范围内按住空格可完全转动锁芯。错误角度持续1.5秒会折断撬针！',
-      'mg2.ctrlAngle': '微调角度',
-      'mg2.ctrlTension': '按住施加张力',
+      'mg2.title': '仓库潜入',
+      'mg2.mission': '任务：在不被发现的情况下抵达最右侧的情报终端（◆）',
+      'mg2.alert': '警戒',
+      'mg2.statusMove': '使用 ←/→（A/D）奔跑，↑/W/空格 跳跃。避开守卫的视线锥——躲进阴影！',
+      'mg2.hint': '守卫会在仓库中巡逻并用视线锥扫描。被看见会积攒警戒值，警戒值满则被抓住。暗色阴影区可以隐藏你的身影。',
+      'mg2.ctrlMove': '奔跑',
+      'mg2.ctrlJump': '跳跃',
+      'mg2.captured': '警戒值已满——你被抓住了！',
+      'mg2.winText': '情报已获取！',
+      'mg2.intelLabel': '情报',
+      'mg2.chipsDone': '情报：',
+      'mg2.perfect': '完美！情报全部到手！',
+
+      'mg3.title': '最终对决 · 沈局长',
+      'mg3.you': '渡鸦',
+      'mg3.shen': '沈局长',
+      'mg3.ctrlMove': '移动',
+      'mg3.ctrlJump': '跳跃',
+      'mg3.ctrlPunch': '拳击',
+      'mg3.ctrlKick': '踢击',
+      'mg3.winTag': '沈局长被击败，正义得到了伸张！',
+      'mg3.loseTag': '渡鸦倒下了……',
+      'mg3.roundTag': '回合',
+      'mg3.fightTag': '开战！',
+      'mg3.hitsTag': '连击',
+      'mg3.flawlessTag': '完美胜利！',
 
       'ending.backTitle': '返回标题',
       'ending.gallery': '查看画廊',
 
-      'chapter.s1': '第一章 · 校园霸凌事件',
-      'chapter.s2': '第二章 · 林雨绑架案',
-      'chapter.mg1': '第三章 · 潜入总部',
-      'chapter.mg2': '第四章 · 资金链追踪',
-      'chapter.final': '第五章 · 终局决战',
+      'chapter.c1': '场景1 · 归乡行动',
+      'chapter.c2': '场景2 · 意外信号',
+      'chapter.c3': '场景3 · 绑架',
+      'chapter.c4': '场景4 · 重聚',
+      'chapter.c5': '场景5 · 仓库潜入',
+      'chapter.c6': '场景6 · 最终对决',
       'chapter.ending': '结局',
-      'chapter.act1': '第一幕 · 渡鸦埋葬的生活',
-      'chapter.act2': '第二幕 · 渡鸦归来',
-      'chapter.act3': '第三幕 · 镜后的人',
-      'chapter.act4': '第四幕 · 打破预言',
       'chapter.default': '隐秘之刃',
 
-      'ach.peace.name': '和平的父亲',
-      'ach.peace.desc': '解锁【真实正义结局】。',
-      'ach.vengeance.name': '复仇之鬼',
-      'ach.vengeance.desc': '解锁【复仇结局】。',
+      'ach.corruption.name': '腐败之网',
+      'ach.corruption.desc': '解锁结局1：腐败之网。',
+      'ach.trapped.name': '困于阴影',
+      'ach.trapped.desc': '解锁结局2：困于阴影。',
+      'ach.triumph.name': '恶徒凯旋',
+      'ach.triumph.desc': '解锁结局3：恶徒凯旋。',
+      'ach.sacrifice.name': '父亲的牺牲',
+      'ach.sacrifice.desc': '解锁结局4：父亲的牺牲。',
+      'ach.justice.name': '真实正义',
+      'ach.justice.desc': '解锁结局5：真实正义。',
       'ach.reunion.name': '重聚旧部',
-      'ach.reunion.desc': '成功招募顾晨与苏岚两名旧队友。',
-      'ach.perfect.name': '完美潜入',
-      'ach.perfect.desc': '在微游戏1（潜入集团总部）中达成零失误通关。',
-      'ach.truth.name': '真相大白',
-      'ach.truth.desc': '向公众完整公开阴谋的所有核心证据。',
-      'ach.secret.name': '破镜者',
-      'ach.secret.desc': '解锁秘密结局：改写镜系统。'
+      'ach.reunion.desc': '在私人路线中与苏岚和顾晨重逢。',
+      'ach.perfect.name': '完美入侵',
+      'ach.perfect.desc': '在系统入侵小游戏中零失误通关。'
     }
   };
 
@@ -319,11 +319,12 @@ window.I18N = (function(){
     if(window.TeamPage && document.getElementById('screen-team')?.classList.contains('active')) TeamPage.render();
     if(window.MiniGame1 && MiniGame1._active) MiniGame1.refreshLabels();
     if(window.MiniGame2 && MiniGame2._active) MiniGame2.refreshLabels();
+    if(window.MiniGame3 && MiniGame3._active) MiniGame3.refreshLabels();
     // 如果正在游戏中，刷新当前节点文本
     const g = (window.Engine && Engine.Game) ? Engine.Game : (window.Game || null);
     if(g && g.inGame && g.node){
       const node = STORY.nodes[g.node];
-      if(node && node.type !== 'minigame1' && node.type !== 'minigame2' && node.type !== 'ending' && node.type !== 'endingCheck'){
+      if(node && node.type !== 'minigame1' && node.type !== 'minigame2' && node.type !== 'minigame3' && node.type !== 'ending'){
         Engine.refreshCurrentNode();
       }
     }

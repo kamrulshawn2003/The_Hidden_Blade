@@ -2,12 +2,13 @@
 window.Achievements = (function(){
   const KEY = 'thb_achievements';
   const list = [
-    { id:'ach_peace',    nameKey:'ach.peace.name',    descKey:'ach.peace.desc',    icon:'🏅' },
-    { id:'ach_vengeance',nameKey:'ach.vengeance.name',descKey:'ach.vengeance.desc',icon:'⚔️' },
-    { id:'ach_reunion',  nameKey:'ach.reunion.name',  descKey:'ach.reunion.desc',  icon:'🤝' },
-    { id:'ach_perfect',  nameKey:'ach.perfect.name',  descKey:'ach.perfect.desc',  icon:'🎯' },
-    { id:'ach_truth',    nameKey:'ach.truth.name',    descKey:'ach.truth.desc',    icon:'📜' },
-    { id:'ach_secret',   nameKey:'ach.secret.name',   descKey:'ach.secret.desc',   icon:'🪞' }
+    { id:'ach_corruption', nameKey:'ach.corruption.name', descKey:'ach.corruption.desc', icon:'🕸️' },
+    { id:'ach_trapped',    nameKey:'ach.trapped.name',    descKey:'ach.trapped.desc',    icon:'🌑' },
+    { id:'ach_triumph',    nameKey:'ach.triumph.name',    descKey:'ach.triumph.desc',    icon:'🃏' },
+    { id:'ach_sacrifice',  nameKey:'ach.sacrifice.name',  descKey:'ach.sacrifice.desc',  icon:'🩸' },
+    { id:'ach_justice',    nameKey:'ach.justice.name',    descKey:'ach.justice.desc',    icon:'⚖️' },
+    { id:'ach_reunion',    nameKey:'ach.reunion.name',    descKey:'ach.reunion.desc',    icon:'🤝' },
+    { id:'ach_perfect',    nameKey:'ach.perfect.name',    descKey:'ach.perfect.desc',    icon:'🎯' }
   ];
   let unlocked = load();
   let _rendered = false;

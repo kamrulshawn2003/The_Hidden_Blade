@@ -92,34 +92,6 @@
     </div>
   </section>
 
-  <!-- ============ 存档 / 读档界面 ============ -->
-  <section id="screen-save" class="screen">
-    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
-    <div class="bg-vignette"></div>
-    <div class="save-layout">
-      <div class="save-header">
-        <h2 id="save-mode-title" data-i18n="save.loadTitle">读取存档</h2>
-        <div class="save-tabs">
-          <button class="save-tab active" data-save-tab="manual" data-i18n="save.manual">手动存档</button>
-          <button class="save-tab" data-save-tab="quick" data-i18n="save.quick">快速存档</button>
-          <button class="save-tab" data-save-tab="auto" data-i18n="save.auto">自动存档</button>
-        </div>
-        <button class="btn-ghost" data-action="back-from-save" data-i18n="save.back">返回</button>
-      </div>
-      <div class="save-grid" id="save-grid"></div>
-    </div>
-    <div class="modal-overlay" id="save-confirm-modal">
-      <div class="modal-box">
-        <div class="modal-title" id="save-confirm-title" data-i18n="save.loadConfirm">读取确认</div>
-        <div class="modal-text" id="save-confirm-text" data-i18n="save.loadQ">是否读取此存档？当前未保存的进度将会丢失。</div>
-        <div class="modal-btns">
-          <button class="btn-ghost" data-action="cancel-save-modal" data-i18n="save.cancel">取消</button>
-          <button class="btn-primary" id="save-confirm-ok" data-i18n="save.confirm">确认</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ 画廊界面 ============ -->
   <section id="screen-gallery" class="screen">
     <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
@@ -198,13 +170,13 @@
     </div>
   </div>
 
-  <!-- ============ 小游戏 1：入侵协议 (Breach Protocol) ============ -->
+  <!-- ============ 小游戏 1：系统入侵 ============ -->
   <section id="screen-minigame1" class="screen">
     <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_server.png')"></div>
     <div class="bg-vignette"></div>
     <div class="breach-layout">
       <div class="breach-top">
-        <div class="breach-title" data-i18n="mg1.title">BREACH PROTOCOL · 入侵协议</div>
+        <div class="breach-title" data-i18n="mg1.title">SYSTEM BREACH · 系统入侵</div>
         <div class="breach-timer"><span data-i18n="mg1.timer">时间</span>：<span id="breach-timer-val">45</span>s</div>
       </div>
       <div class="breach-main">
@@ -228,63 +200,71 @@
     </div>
   </section>
 
-  <!-- ============ 小游戏 2：精密撬锁 ============ -->
+  <!-- ============ 小游戏 2：仓库潜入 ============ -->
   <section id="screen-minigame2" class="screen">
-    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_safehouse.png')"></div>
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_bunker.png')"></div>
     <div class="bg-vignette"></div>
-    <div class="lock-layout">
-      <div class="lock-top">
-        <div class="lock-title" data-i18n="mg2.title">PRECISION LOCKPICKING · 精密撬锁</div>
-        <div class="lock-timer"><span data-i18n="mg2.timer">时间</span>：<span id="lock-timer-val">60</span>s</div>
-        <div class="lock-picks"><span data-i18n="mg2.picks">撬针</span>：<span id="lock-picks-val">3</span></div>
+    <div class="infil-layout">
+      <div class="infil-top">
+        <div class="infil-title" data-i18n="mg2.title">WAREHOUSE INFILTRATION · 仓库潜入</div>
+        <div class="infil-chip-box">
+          <span class="infil-side-label" data-i18n="mg2.intelLabel">情报 / INTEL</span>
+          <span class="infil-chip-count" id="infil-chips">0 / 4</span>
+        </div>
+        <div class="infil-alert-box">
+          <span class="infil-side-label" data-i18n="mg2.alert">警戒 / ALERT</span>
+          <div class="infil-alert-bar"><div class="infil-alert-fill" id="infil-alert-fill"></div></div>
+        </div>
       </div>
-      <div class="lock-main">
-        <div class="lock-stage" id="lock-stage">
-          <svg class="lock-svg" viewBox="0 0 300 340">
-            <circle cx="150" cy="160" r="130" fill="url(#brassGrad)" stroke="#8B6914" stroke-width="4"/>
-            <circle cx="150" cy="160" r="110" fill="#2a1f0a" stroke="#5a4a1a" stroke-width="2"/>
-            <g id="lock-cylinder" transform="rotate(0 150 160)">
-              <circle cx="150" cy="160" r="85" fill="#3d2f10" stroke="#8B6914" stroke-width="3"/>
-              <rect x="140" y="125" width="20" height="45" rx="4" fill="#111"/>
-              <circle cx="150" cy="170" r="14" fill="#111"/>
-              <line x1="150" y1="80" x2="150" y2="95" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
-            </g>
-            <g id="tension-wrench" transform="rotate(0 150 250)">
-              <rect x="143" y="245" width="14" height="35" rx="3" fill="#666" stroke="#444" stroke-width="1"/>
-              <rect x="130" y="275" width="40" height="10" rx="3" fill="#888" stroke="#555" stroke-width="1"/>
-            </g>
-            <g id="lock-pick" transform="rotate(0 150 160)">
-              <line x1="150" y1="160" x2="150" y2="50" stroke="#c0c0c0" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="150" cy="50" r="4" fill="#e0e0e0"/>
-            </g>
-            <defs>
-              <radialGradient id="brassGrad" cx="40%" cy="35%">
-                <stop offset="0%" stop-color="#d4af37"/>
-                <stop offset="60%" stop-color="#b8941f"/>
-                <stop offset="100%" stop-color="#8B6914"/>
-              </radialGradient>
-            </defs>
-          </svg>
-          <div class="lock-angle-display"><span id="lock-angle-val">90</span>°</div>
+      <div class="infil-main">
+        <div class="infil-stage">
+          <canvas id="infil-canvas" width="960" height="540"></canvas>
+          <div class="infil-status" id="infil-status" data-i18n="mg2.statusMove">使用 ←/→ 奔跑、↑/W/空格 跳跃，躲进阴影避开守卫视线</div>
         </div>
-        <div class="lock-side">
-          <div class="lock-stress">
-            <div class="lock-side-label" data-i18n="mg2.stress">张力 / STRESS</div>
-            <div class="lock-stress-bar"><div class="lock-stress-fill" id="lock-stress-fill"></div></div>
-            <div class="lock-stress-val" id="lock-stress-val">0%</div>
-          </div>
-          <div class="lock-noise">
-            <div class="lock-side-label" data-i18n="mg2.noise">噪音 / NOISE</div>
-            <div class="lock-noise-bar"><div class="lock-noise-fill" id="lock-noise-fill"></div></div>
-            <div class="lock-noise-val" id="lock-noise-val">0%</div>
-          </div>
-          <div class="lock-status" id="lock-status" data-i18n="mg2.statusIdle">移动鼠标调整撬针角度，按住空格施加张力</div>
-          <div class="lock-hint" data-i18n="mg2.hint">在±5°范围内按住空格可完全转动锁芯。错误角度持续1.5秒会折断撬针！</div>
-          <div class="lock-controls">
-            <div><kbd>←</kbd> <kbd>→</kbd> <span data-i18n="mg2.ctrlAngle">微调角度</span></div>
-            <div><kbd>SPACE</kbd> <span data-i18n="mg2.ctrlTension">按住施加张力</span></div>
-          </div>
+      </div>
+      <div class="infil-bottom">
+        <div class="infil-mission" data-i18n="mg2.mission">任务：在不被发现的情况下抵达最右侧的情报终端（◆）</div>
+        <div class="infil-hint" data-i18n="mg2.hint">守卫沿巡逻路线行走并用视线锥扫描。被看见会积攒警戒值，警戒值满则被抓。躲进阴影（暗区）可避开守卫视线。</div>
+        <div class="infil-legend">
+          <div><span class="legend-dot player"></span> 渡鸦 / Raven</div>
+          <div><span class="legend-dot guard"></span> 守卫 / Guard</div>
+          <div><span class="legend-dot shadow"></span> 阴影 / Shadow</div>
+          <div><span class="legend-dot intel"></span> 情报终端 / Intel</div>
         </div>
+        <div class="infil-controls">
+          <div><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> <span data-i18n="mg2.ctrlMove">奔跑</span></div>
+          <div><kbd>↑</kbd><kbd>W</kbd><kbd>SPACE</kbd> <span data-i18n="mg2.ctrlJump">跳跃</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 小游戏 3：最终对决 ============ -->
+  <section id="screen-minigame3" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_bunker.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="battle-layout">
+      <div class="battle-title" data-i18n="mg3.title">FINAL DUEL · 最终对决</div>
+      <div class="battle-hp-row">
+        <div class="battle-hp">
+          <span class="battle-hp-label" data-i18n="mg3.you">渡鸦 / RAVEN</span>
+          <div class="battle-hp-bar"><div class="battle-hp-fill you" id="battle-hp-you"></div></div>
+          <span class="battle-hp-val" id="battle-hp-you-val">100</span>
+        </div>
+        <div class="battle-hp">
+          <span class="battle-hp-label" data-i18n="mg3.shen">沈局长 / SHEN</span>
+          <div class="battle-hp-bar"><div class="battle-hp-fill shen" id="battle-hp-shen"></div></div>
+          <span class="battle-hp-val" id="battle-hp-shen-val">100</span>
+        </div>
+      </div>
+      <div class="battle-stage">
+        <canvas id="battle-canvas" width="960" height="540"></canvas>
+      </div>
+      <div class="battle-controls">
+        <div><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> <span data-i18n="mg3.ctrlMove">移动</span></div>
+        <div><kbd>↑</kbd><kbd>W</kbd> <span data-i18n="mg3.ctrlJump">跳跃</span></div>
+        <div><kbd>J</kbd> <span data-i18n="mg3.ctrlPunch">拳击</span></div>
+        <div><kbd>K</kbd> <span data-i18n="mg3.ctrlKick">踢击</span></div>
       </div>
     </div>
   </section>
@@ -317,8 +297,10 @@
 <script src="js/achievements.js"></script>
 <script src="js/gallery.js"></script>
 <script src="js/team.js"></script>
+<script src="js/sprites.js"></script>
 <script src="js/minigame1.js"></script>
 <script src="js/minigame2.js"></script>
+<script src="js/minigame3.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/main.js"></script>
 </body>

@@ -141,10 +141,6 @@ window.MiniGame1 = (function(){
     });
   }
 
-  function allTargetsDone(){
-    return targets.every(t=>t.done);
-  }
-
   function primaryDone(){
     return targets.length > 0 && targets[0].done;
   }

@@ -116,7 +116,9 @@ window.AudioSys = (function(){
     achievement: ()=> { tone(784,0.1,'sine',0.18); setTimeout(()=>tone(988,0.1,'sine',0.18),100); setTimeout(()=>tone(1175,0.15,'sine',0.2),200); setTimeout(()=>tone(1568,0.25,'sine',0.22),350); },
     page:    ()=> sweep(300, 600, 0.15, 'sine', 0.08),
     save:    ()=> { tone(600,0.08,'sine',0.15); setTimeout(()=>tone(900,0.12,'sine',0.15),90); },
-    move:    ()=> tone(300, 0.06, 'triangle', 0.1)
+    move:    ()=> tone(300, 0.06, 'triangle', 0.1),
+    hit:     ()=> { tone(180, 0.09, 'square', 0.22); noise(0.07, 0.18, 1300); },
+    pickup:  ()=> { tone(1200,0.06,'sine',0.14); setTimeout(()=>tone(1600,0.08,'sine',0.12),70); }
   };
 
   /* 背景音乐：MP3 直接播放（不经过 Web Audio 节点，避免 file:// 下被静音），循环播放 */

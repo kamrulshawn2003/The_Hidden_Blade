@@ -1,4 +1,4 @@
-/* ===== The Hidden Blade · 主入口 ===== */
+﻿/* ===== The Hidden Blade · 主入口 ===== */
 (function(){
   document.addEventListener('DOMContentLoaded', init);
 
@@ -9,11 +9,11 @@
     // 初始化各模块
     Settings.bindUI();
     Settings.apply();
-    SaveSys.bindUI();
     Gallery.bindUI();
     TeamPage.bindUI();
     MiniGame1.bind();
     MiniGame2.bind();
+    MiniGame3.bind();
     Engine.bind();
 
     // 语言切换按钮（已移除 UI，保留 i18n 机制；如需恢复，添加带 data-i18n-lang 的元素即可）
@@ -101,8 +101,7 @@
       const btn = document.getElementById('btn-saved-game');
       if(btn && btn.classList.contains('disabled')) return;
       AudioSys.sfx.click();
-      SaveSys.render('load');
-      Engine.showScreen('save');
+      SaveSys.resume();
     });
     document.querySelector('[data-action="open-settings"]').addEventListener('click', ()=>{
       AudioSys.sfx.click();
@@ -129,17 +128,7 @@
   function updateSavedGameButton(){
     const btn = document.getElementById('btn-saved-game');
     if(!btn) return;
-    let hasSave = false;
-    try{
-      for(let i=0; i<localStorage.length; i++){
-        const key = localStorage.key(i);
-        if(key && key.startsWith('thb_save_')){
-          const raw = localStorage.getItem(key);
-          if(raw && raw !== 'null' && raw !== ''){ hasSave = true; break; }
-        }
-      }
-    }catch(e){}
-    btn.classList.toggle('disabled', !hasSave);
+    btn.classList.toggle('disabled', !SaveSys.hasSave());
   }
 
   // 暴露给其他模块在存档变化后调用

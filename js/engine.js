@@ -26,7 +26,7 @@ window.Engine = (function(){
       return { node: this.node, flags: Object.assign({}, this.flags), stats: Object.assign({}, this.stats), progress: this.progress() };
     },
     loadState(data){
-      this.node = data.node;
+      this.node = STORY.nodes[data.node] ? data.node : STORY.start;
       this.flags = data.flags || {};
       this.stats = data.stats || { evidence:0, trust:0, exposure:0, revenge:0 };
       this.inGame = true;
@@ -40,7 +40,7 @@ window.Engine = (function(){
       const m = n.match(/^s(\d+)/);
       if(m){
         const scene = parseInt(m[1]);
-        return Math.min(99, Math.round((scene / 30) * 100));
+        return Math.min(99, Math.round((scene / 6) * 100));
       }
       return 5;
     }
@@ -62,13 +62,8 @@ window.Engine = (function(){
     if(speaker.startsWith('林雨') || s.indexOf('lin yu') === 0) return 'linyu';
     if(speaker.startsWith('顾晨') || s.indexOf('gu chen') === 0) return 'guchen';
     if(speaker.startsWith('苏岚') || s.indexOf('su lan') === 0) return 'sulan';
-    if(speaker.startsWith('梅晨') || s.indexOf('mei') === 0) return 'mei';
-    if(speaker.startsWith('沈局长') || s.indexOf('shen') === 0 || speaker.startsWith('沈')) return 'shen';
-    if(speaker.startsWith('赵维克多') || s.indexOf('victor') === 0) return 'victor';
-    if(speaker.startsWith('赵凯') || s.indexOf('zhao kai') === 0) return 'zhaokai';
-    if(speaker.startsWith('何亮博士') || s.indexOf('dr. he') === 0 || speaker.startsWith('何博士')) return 'drhe';
-    if(speaker.startsWith('幕后黑手') || s.indexOf('mastermind') === 0) return 'mastermind';
-    if(speaker.startsWith('绑匪') || s.indexOf('kidnapper') === 0 || s.indexOf('物流官员') >= 0 || s.indexOf('logistics officer') >= 0) return 'kidnapper';
+    if(speaker.startsWith('沈') || s.indexOf('shen') === 0) return 'shen';
+    if(speaker.startsWith('梅') || s.indexOf('mei') === 0) return 'mei';
     return null;
   }
   function isNarration(speaker){
@@ -158,9 +153,11 @@ window.Engine = (function(){
       );
       return;
     }
-    if(node.type === 'endingCheck'){
-      const ending = resolveEnding();
-      loadNode(ending);
+    if(node.type === 'minigame3'){
+      MiniGame3.start(
+        ()=>{ Game.flags.mg3 = 'success'; loadNode(node.nextSuccess); },
+        ()=>{ Game.flags.mg3 = 'fail'; loadNode(node.nextFail); }
+      );
       return;
     }
     if(node.type === 'ending'){
@@ -227,48 +224,6 @@ window.Engine = (function(){
 
     // 自动存档
     SaveSys.autoSave();
-  }
-
-  /* ---------- 结局判定（基于最终选择 + 四项数值） ---------- */
-  function resolveEnding(){
-    const f = Game.flags;
-    const s = Game.stats;
-    const final = f.final;
-
-    // Secret ending: Rewrite Mirror — requires strong evidence & trust
-    if(final === 'rewrite' && s.evidence >= 55 && s.trust >= 45) return 'end_secret';
-
-    // Alone: extreme revenge, low family trust (can follow kill or violent destroy)
-    if(s.revenge >= 65 && s.trust <= 25) return 'end_alone';
-
-    // The Watcher: take control of Mirror
-    if(final === 'control') return 'end_watcher';
-
-    // Chaos: release the raw database
-    if(final === 'release') return 'end_chaos';
-
-    // Vengeance: kill Shen
-    if(final === 'kill') return 'end_vengeance';
-
-    // True Justice: arrest Shen with enough evidence
-    if(final === 'arrest' && s.evidence >= 45) return 'end_justice';
-
-    // Ghost Family: destroy mirror, decent trust, but exposure high or evidence insufficient
-    if(final === 'destroy' && s.trust >= 35 && (s.exposure >= 40 || s.evidence < 35)) return 'end_ghost';
-
-    // The Hidden Blade: destroy mirror with insufficient public evidence
-    if(final === 'destroy' && s.evidence < 35) return 'end_hidden';
-
-    // Destroy with decent trust and evidence → Ghost Family (new identities, peaceful)
-    if(final === 'destroy' && s.trust >= 35) return 'end_ghost';
-
-    // Destroy with low trust → Hidden Blade
-    if(final === 'destroy') return 'end_hidden';
-
-    // Arrest without enough evidence → Hidden Blade (blamed, no public proof)
-    if(final === 'arrest') return 'end_hidden';
-
-    return 'end_hidden';
   }
 
   /* ---------- 结局展示 ---------- */
@@ -383,8 +338,8 @@ window.Engine = (function(){
 
     // 快捷菜单按钮
     document.querySelector('[data-action="qm-resume"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); });
-    document.querySelector('[data-action="qm-save"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.render('save'); showScreen('save'); });
-    document.querySelector('[data-action="qm-load"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.render('load'); showScreen('save'); });
+    document.querySelector('[data-action="qm-save"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.save(); });
+    document.querySelector('[data-action="qm-load"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.resume(); });
     document.querySelector('[data-action="qm-settings"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); showScreen('settings'); });
     document.querySelector('[data-action="qm-title"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); backToTitle(); });
 

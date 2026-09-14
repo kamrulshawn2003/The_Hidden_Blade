@@ -63,20 +63,7 @@ window.Gallery = (function(){
     content.appendChild(list);
   }
 
-  /* 简易查看器：用 toast + 模态? 这里用全屏覆盖层 */
-  function showCGViewer(cg){
-    let overlay = document.getElementById('cg-viewer');
-    if(!overlay){
-      overlay = document.createElement('div');
-      overlay.id = 'cg-viewer';
-      overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.92);z-index:60;display:flex;align-items:center;justify-content:center;cursor:pointer';
-      overlay.innerHTML = '<img id="cg-viewer-img" style="max-width:92%;max-height:88%;object-fit:contain;border:1px solid var(--gold);border-radius:6px"><div style="position:absolute;bottom:20px;color:var(--muted);font-size:13px;letter-spacing:2px">点击任意处关闭</div>';
-      document.getElementById('stage').appendChild(overlay);
-      overlay.addEventListener('click', ()=> overlay.style.display='none');
-    }
-    document.getElementById('cg-viewer-img').src = STORY.backgrounds[cg.bg];
-    overlay.style.display = 'flex';
-  }
+  /* 角色查看器 */
   function showCharViewer(ch){
     let overlay = document.getElementById('cg-viewer');
     if(!overlay){
