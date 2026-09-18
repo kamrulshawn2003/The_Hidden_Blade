@@ -118,7 +118,11 @@ window.AudioSys = (function(){
     save:    ()=> { tone(600,0.08,'sine',0.15); setTimeout(()=>tone(900,0.12,'sine',0.15),90); },
     move:    ()=> tone(300, 0.06, 'triangle', 0.1),
     hit:     ()=> { tone(180, 0.09, 'square', 0.22); noise(0.07, 0.18, 1300); },
-    pickup:  ()=> { tone(1200,0.06,'sine',0.14); setTimeout(()=>tone(1600,0.08,'sine',0.12),70); }
+    pickup:  ()=> { tone(1200,0.06,'sine',0.14); setTimeout(()=>tone(1600,0.08,'sine',0.12),70); },
+    whoosh:  ()=> { noise(0.14, 0.5, 700); sweep(320, 980, 0.13, 'sine', 0.07); },
+    charge:  ()=> { sweep(110, 520, 0.34, 'sawtooth', 0.13); },
+    block:   ()=> { tone(320, 0.06, 'square', 0.16); noise(0.04, 0.5, 2600); },
+    ko:      ()=> { sweep(520, 60, 0.55, 'square', 0.18); noise(0.3, 0.18, 800); }
   };
 
   /* 背景音乐：MP3 直接播放（不经过 Web Audio 节点，避免 file:// 下被静音），循环播放 */
@@ -139,11 +143,28 @@ window.AudioSys = (function(){
     const playPromise = bgmEl.play();
     if(playPromise && playPromise.catch){
       playPromise.catch(()=>{
-        // 自动播放被浏览器拦截，等待用户首次交互后重试
+        // 自动播放被浏览器拦截：改为在用户每次交互时重试，直到成功为止
         bgmPlaying = false;
+        armUnlockRetry();
       });
     }
     fadeTo(bgmVolume(), 1500);
+  }
+
+  /* 自动播放被拦截后的自愈：任意交互（点击/按键/滚动/触摸/切回页面）都重试 BGM */
+  function armUnlockRetry(){
+    const tryStart = ()=>{
+      if(bgmPlaying || !settings.bgmOn) return;
+      bgmPlaying = true;
+      const p = bgmEl.play();
+      if(p && p.catch){
+        p.catch(()=>{ bgmPlaying = false; armUnlockRetry(); });
+      }
+      fadeTo(bgmVolume(), 1200);
+    };
+    ['pointerdown','keydown','touchstart','wheel','scroll','visibilitychange'].forEach(ev=>{
+      document.addEventListener(ev, tryStart, {capture:true, once:true});
+    });
   }
 
   function stopBGM(){

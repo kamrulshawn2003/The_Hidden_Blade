@@ -142,6 +142,7 @@ window.Engine = (function(){
 
     // 特殊节点类型
     if(node.type === 'minigame1'){
+      SaveSys.autoSave(); // 进小游戏前自动存档，失败后可一键重试
       if(window.VoiceSys) VoiceSys.stop();
       MiniGame1.start(
         (res)=>{ Game.flags.mg1 = 'success'; if(res && res.perfect) Achievements.unlock('ach_perfect'); loadNode(node.nextSuccess); },
@@ -150,6 +151,7 @@ window.Engine = (function(){
       return;
     }
     if(node.type === 'minigame2'){
+      SaveSys.autoSave();
       if(window.VoiceSys) VoiceSys.stop();
       MiniGame2.start(
         ()=>{ Game.flags.mg2 = 'success'; loadNode(node.nextSuccess); },
@@ -158,6 +160,7 @@ window.Engine = (function(){
       return;
     }
     if(node.type === 'minigame3'){
+      SaveSys.autoSave();
       if(window.VoiceSys) VoiceSys.stop();
       MiniGame3.start(
         ()=>{ Game.flags.mg3 = 'success'; loadNode(node.nextSuccess); },
@@ -350,8 +353,8 @@ window.Engine = (function(){
 
     // 快捷菜单按钮
     document.querySelector('[data-action="qm-resume"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); });
-    document.querySelector('[data-action="qm-save"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.save(); });
-    document.querySelector('[data-action="qm-load"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.resume(); });
+    document.querySelector('[data-action="qm-save"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.openSaveUI(); });
+    document.querySelector('[data-action="qm-load"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); SaveSys.openLoadUI(); });
     document.querySelector('[data-action="qm-settings"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); closeQuickMenu(); showScreen('settings'); });
     document.querySelector('[data-action="qm-title"]').addEventListener('click', ()=>{ AudioSys.sfx.click(); backToTitle(); });
 

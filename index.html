@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Hidden Blade · 隐秘之刃</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20260918c">
 </head>
 <body>
 <div id="stage">
@@ -171,6 +171,9 @@
     </div>
   </div>
 
+  <!-- 存档 / 读档 槽位选择 -->
+  <div class="save-overlay" id="save-overlay"></div>
+
   <!-- ============ 小游戏 1：系统入侵 ============ -->
   <section id="screen-minigame1" class="screen">
     <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_server.png')"></div>
@@ -224,7 +227,7 @@
         </div>
       </div>
       <div class="infil-bottom">
-        <div class="infil-mission" data-i18n="mg2.mission">任务：在不被发现的情况下抵达最右侧的情报终端（◆）</div>
+        <div class="infil-mission" id="infil-mission" data-i18n="mg2.mission">任务：在不被发现的情况下抵达最右侧的情报终端（◆）</div>
         <div class="infil-hint" data-i18n="mg2.hint">守卫沿巡逻路线行走并用视线锥扫描。被看见会积攒警戒值，警戒值满则被抓。躲进阴影（暗区）可避开守卫视线。</div>
         <div class="infil-legend">
           <div><span class="legend-dot player"></span> 渡鸦 / Raven</div>
@@ -235,6 +238,8 @@
         <div class="infil-controls">
           <div><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> <span data-i18n="mg2.ctrlMove">奔跑</span></div>
           <div><kbd>↑</kbd><kbd>W</kbd><kbd>SPACE</kbd> <span data-i18n="mg2.ctrlJump">跳跃</span></div>
+          <div><kbd>↑</kbd> <span data-i18n="mg2.ctrlClimb">攀爬（空中贴墙按住）</span></div>
+          <div><kbd>SPACE</kbd> <span data-i18n="mg2.ctrlWallJump">蹬墙跳</span></div>
         </div>
       </div>
     </div>
@@ -266,6 +271,13 @@
         <div><kbd>↑</kbd><kbd>W</kbd> <span data-i18n="mg3.ctrlJump">跳跃</span></div>
         <div><kbd>J</kbd> <span data-i18n="mg3.ctrlPunch">拳击</span></div>
         <div><kbd>K</kbd> <span data-i18n="mg3.ctrlKick">踢击</span></div>
+        <div><kbd>R</kbd> <span data-i18n="mg3.ctrlPalm">连环掌</span></div>
+        <div><kbd>T</kbd> <span data-i18n="mg3.ctrlUpper">升龙拳</span></div>
+        <div><kbd>Q</kbd> <span data-i18n="mg3.ctrlFly">飞踢</span></div>
+        <div><kbd>E</kbd> <span data-i18n="mg3.ctrlSpin">旋风腿</span></div>
+        <div><kbd>L</kbd> <span data-i18n="mg3.ctrlBlock">格挡（按住）</span></div>
+        <div><kbd>SHIFT</kbd> <span data-i18n="mg3.ctrlDash">冲刺（无敌）</span></div>
+        <div><kbd>U</kbd> <span data-i18n="mg3.ctrlSpecial">渡鸦突袭·三连击（必杀）</span></div>
       </div>
     </div>
   </section>
@@ -280,6 +292,7 @@
       <div class="ending-text" id="ending-text"></div>
       <div class="ending-btns">
         <button class="btn-primary" data-action="ending-title" data-i18n="ending.backTitle">返回标题</button>
+        <button class="btn-ghost" data-action="ending-load" data-i18n="save.endingLoad">读取存档</button>
         <button class="btn-ghost" data-action="ending-gallery" data-i18n="ending.gallery">查看画廊</button>
       </div>
     </div>
@@ -290,20 +303,20 @@
 
 </div>
 
-<script src="js/i18n.js"></script>
-<script src="js/audio.js"></script>
-<script src="js/speech.js"></script>
-<script src="js/story.js"></script>
-<script src="js/settings.js"></script>
-<script src="js/save.js"></script>
-<script src="js/achievements.js"></script>
-<script src="js/gallery.js"></script>
-<script src="js/team.js"></script>
-<script src="js/sprites.js"></script>
-<script src="js/minigame1.js"></script>
-<script src="js/minigame2.js"></script>
-<script src="js/minigame3.js"></script>
-<script src="js/engine.js"></script>
-<script src="js/main.js"></script>
+<script src="js/i18n.js?v=20260918c"></script>
+<script src="js/audio.js?v=20260918c"></script>
+<script src="js/speech.js?v=20260918c"></script>
+<script src="js/story.js?v=20260918c"></script>
+<script src="js/settings.js?v=20260918c"></script>
+<script src="js/save.js?v=20260918c"></script>
+<script src="js/achievements.js?v=20260918c"></script>
+<script src="js/gallery.js?v=20260918c"></script>
+<script src="js/team.js?v=20260918c"></script>
+<script src="js/sprites.js?v=20260918c"></script>
+<script src="js/minigame1.js?v=20260918c"></script>
+<script src="js/minigame2.js?v=20260918c"></script>
+<script src="js/minigame3.js?v=20260918c"></script>
+<script src="js/engine.js?v=20260918c"></script>
+<script src="js/main.js?v=20260918c"></script>
 </body>
 </html>

@@ -226,6 +226,21 @@ body{display:flex;align-items:center;justify-content:center}
 .quick-menu-box{background:var(--panel);border:1px solid var(--gold);border-radius:10px;padding:30px 36px;width:300px}
 .qm-title{text-align:center;font-size:22px;letter-spacing:6px;color:var(--gold);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
 
+/* ===== 存档 / 读档 槽位面板 ===== */
+.save-overlay{position:absolute;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:45}
+.save-overlay.active{display:flex}
+.save-panel{background:var(--panel);border:1px solid var(--gold);border-radius:12px;padding:24px 28px;width:min(780px,94vw);max-height:88vh;overflow:auto;box-shadow:0 0 44px rgba(0,0,0,.7)}
+.save-title{text-align:center;font-size:22px;letter-spacing:6px;color:var(--gold);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.save-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px;margin-bottom:18px}
+.save-card{background:rgba(20,13,10,.72);border:1px solid var(--line);border-radius:8px;padding:12px;cursor:pointer;text-align:left;transition:border-color .2s,transform .15s,opacity .2s;min-height:98px;display:flex;flex-direction:column;gap:5px;color:var(--cream);font-family:inherit}
+.save-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.save-card .save-slot{font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:700}
+.save-card .save-label{font-size:13px;line-height:1.35;flex:1;overflow:hidden}
+.save-card .save-meta{font-size:11px;color:rgba(230,220,200,.55);font-family:monospace}
+.save-card.empty{border-style:dashed;opacity:.55}
+.save-card.empty:hover{opacity:.9;transform:none}
+.save-actions{display:flex;justify-content:center}
+
 /* ===== 小游戏 1：系统入侵 Breach Protocol ===== */
 .breach-layout{position:absolute;inset:0;z-index:2;padding:28px 36px;display:flex;flex-direction:column}
 .breach-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}

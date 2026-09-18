@@ -58,7 +58,13 @@ window.VoiceSys = (function(){
     const isEn = lang === 'en';
     const prefix = isEn ? 'en' : 'zh';
     let cand = voices.filter(v => v && v.lang && v.lang.toLowerCase().indexOf(prefix) === 0);
-    if(!cand.length) return null;
+    if(!cand.length){
+      // 系统里没有对应语言的语音（例如缺中文语音包）：退回任意可用语音，保证能发声
+      if(voices.length){
+        return voices.find(v => /natural|online|desktop|google/i.test(v.name)) || voices[0];
+      }
+      return null;
+    }
     // 优先常见口音：英文用 en-US、中文用 zh-CN
     const region = isEn ? 'en-us' : 'zh-cn';
     const regional = cand.filter(v => v.lang.toLowerCase().indexOf(region) === 0);
@@ -118,6 +124,8 @@ window.VoiceSys = (function(){
   function speak(speaker, text){
     if(!enabled) return;
     if(!window.speechSynthesis || !text) return;
+    // 每次朗读前刷新语音列表（系统语音可能加载较慢/延迟就绪）
+    try{ voices = speechSynthesis.getVoices(); }catch(e){}
     const s = window.AudioSys ? AudioSys.getSettings() : { voice:100 };
     const vol = (s.voice !== undefined ? s.voice : 100) / 100;
     if(vol <= 0) return;
