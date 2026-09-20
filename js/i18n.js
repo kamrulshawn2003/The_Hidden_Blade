@@ -16,6 +16,33 @@ window.I18N = (function(){
       'title.footer': 'HTML5 · CSS3 · JavaScript  |  Team "Stay Home" Presents',
       'lang.toggle': '中文',
 
+      /* 登录界面 */
+      'login.title': 'AGENT ACCESS',
+      'login.sub': 'Enter your agent codename or your name to begin the operation',
+      'login.placeholder': 'Enter codename or name…',
+      'login.enter': 'LOG IN',
+      'login.hint': 'Your codename or name identifies your profile and is bound to your saves',
+      'login.welcome': 'Welcome, Agent',
+      'login.welcomeBack': 'Welcome back, Agent',
+      'login.agent': 'AGENT',
+      'login.switch': 'SWITCH',
+      'login.tabLogin': 'LOG IN',
+      'login.tabSignup': 'SIGN UP',
+      'login.signupSub': 'New player? Enter your real name — your agent codename will be assigned.',
+      'login.signupPlaceholder': 'Enter your name…',
+      'login.signupBtn': 'SIGN UP',
+      'login.signupHint': 'After signing up you will receive your agent codename. Saves are bound to your profile.',
+      'login.signedUp': 'SIGN UP COMPLETE',
+      'login.yourName': 'Your name is',
+      'login.yourCodename': 'Your agent codename is',
+      'login.enterAction': 'LOG IN NOW',
+      'login.signupDoneHint': 'Now log in with your codename to start the operation.',
+      'login.pleaseLogin': 'Sign up complete! Please log in again with your codename:',
+      'login.notFound': 'No agent found with that codename or name. Please sign up first.',
+      'login.exists': 'This name is already signed up. Welcome back!',
+      'login.logout': 'LOGOUT',
+      'login.loggedOut': 'Logged out. See you soon, Agent.',
+
       /* 制作团队 */
       'team.title': 'Our Team',
       'team.subtitle': 'The creators behind The Hidden Blade',
@@ -186,6 +213,33 @@ window.I18N = (function(){
       'btn.back': '返回',
       'title.footer': 'HTML5 · CSS3 · JavaScript  |  4班 留在家 出品',
       'lang.toggle': 'EN',
+
+      /* 登录界面 */
+      'login.title': '特工登录',
+      'login.sub': '输入你的特工代号或姓名，开始行动',
+      'login.placeholder': '请输入代号或姓名…',
+      'login.enter': '登 入',
+      'login.hint': '代号或姓名将作为你的身份标识，与存档绑定',
+      'login.welcome': '欢迎，特工',
+      'login.welcomeBack': '欢迎回来，特工',
+      'login.agent': '特工',
+      'login.switch': '切换',
+      'login.tabLogin': '登 录',
+      'login.tabSignup': '注 册',
+      'login.signupSub': '新玩家？输入你的真实姓名，系统将为你分配特工代号。',
+      'login.signupPlaceholder': '请输入你的姓名…',
+      'login.signupBtn': '注 册',
+      'login.signupHint': '注册成功后你将获得特工代号，存档将与你的档案绑定。',
+      'login.signedUp': '注册完成',
+      'login.yourName': '你的姓名是',
+      'login.yourCodename': '你的特工代号是',
+      'login.enterAction': '去登录',
+      'login.signupDoneHint': '现在请用你的特工代号登录，开始行动。',
+      'login.pleaseLogin': '注册成功！请用你的特工代号重新登录：',
+      'login.notFound': '未找到该代号或姓名的特工，请先注册。',
+      'login.exists': '该姓名已注册，欢迎回来！',
+      'login.logout': '退出登录',
+      'login.loggedOut': '已退出登录，特工，期待再见。',
 
       /* 制作团队 */
       'team.title': '制作团队',
@@ -374,6 +428,7 @@ window.I18N = (function(){
     if(titleEn) titleEn.textContent = (lang === 'zh') ? 'THE HIDDEN BLADE' : '隐秘之刃';
     // 通知其他模块刷新动态文本
     if(window.SaveSys && typeof SaveSys.refreshLabels === 'function') SaveSys.refreshLabels();
+    if(window.LoginSys && typeof LoginSys.refreshLabels === 'function') LoginSys.refreshLabels();
     if(window.Gallery && Gallery._rendered) Gallery.render();
     if(window.Achievements && Achievements._rendered) Achievements.render();
     if(window.TeamPage && document.getElementById('screen-team')?.classList.contains('active')) TeamPage.render();

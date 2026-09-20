@@ -10,6 +10,9 @@ window.Engine = (function(){
     if(id !== 'game' && id !== 'ending' && window.VoiceSys) VoiceSys.stop();
     if(id === 'title' && typeof window.updateSavedGameButton === 'function'){
       window.updateSavedGameButton();
+    if(id === 'title' && window.LoginSys && typeof LoginSys.updateChip === 'function'){
+      LoginSys.updateChip();
+    }
     }
   }
 
