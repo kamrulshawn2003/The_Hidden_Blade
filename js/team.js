@@ -10,7 +10,7 @@ window.TeamPage = (function(){
   const members = [
     {
       name: '张引弘',
-      nameEn: 'Derren',
+      nameEn: 'Darren Teoh',
       role: '项目负责人 / 测试',
       roleEn: 'Project Lead / Testing',
       img: './assets/team/derren.jpg'
@@ -24,28 +24,28 @@ window.TeamPage = (function(){
     },
     {
       name: '林芩妤',
-      nameEn: 'Viennay Lim',
+      nameEn: 'Vianney Lim',
       role: '美术 / 设计',
       roleEn: 'Art & Design',
       img: './assets/team/vienay.jpg'
     },
     {
       name: '尚杰',
-      nameEn: 'Shawn',
+      nameEn: 'Shawn Kazi Md Kamrul Islam',
       role: '程序开发',
       roleEn: 'Programming',
       img: './assets/team/kamrul.jpg'
     },
     {
       name: '涂展瑆',
-      nameEn: 'Fedrick',
+      nameEn: 'Fendrick Violetthu',
       role: '剧本 / 编剧',
       roleEn: 'Story & Script',
       img: './assets/team/fedrick.jpg'
     },
     {
       name: '李佳琳',
-      nameEn: 'Jessica',
+      nameEn: 'Jessica Patricia Lie',
       role: '首席信息官',
       roleEn: 'CIO',
       img: './assets/team/jessica.jpg'
