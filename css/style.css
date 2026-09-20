@@ -358,3 +358,89 @@ body{display:flex;align-items:center;justify-content:center}
   .ach-grid{grid-template-columns:repeat(2,1fr)}
   .dialog-text{font-size:16px}
 }
+
+/* ===== 登录界面 (Agent Login) ===== */
+.login-layout{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;padding:20px}
+.login-panel{
+  width:min(440px,92vw);box-sizing:border-box;
+  background:linear-gradient(180deg,rgba(18,12,10,.9),rgba(10,7,6,.95));
+  border:1px solid var(--gold-dim);border-radius:8px;
+  box-shadow:0 8px 40px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.06);
+  padding:34px 36px 28px;text-align:center;
+}
+.login-logo{width:100%;max-width:340px;margin:0 auto 16px;filter:drop-shadow(0 0 20px rgba(212,175,55,.35))}
+.login-title{font-size:22px;letter-spacing:6px;color:var(--gold);text-shadow:0 2px 10px rgba(0,0,0,.9)}
+.login-sub{margin:10px 0 22px;color:var(--muted);font-size:14px;letter-spacing:1px;line-height:1.6}
+.login-input{
+  width:100%;box-sizing:border-box;padding:13px 14px;
+  background:rgba(0,0,0,.5);color:var(--cream);font-size:19px;letter-spacing:3px;text-align:center;
+  border:1px solid rgba(212,175,55,.35);border-radius:4px;outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.login-input::placeholder{color:rgba(190,180,160,.45);font-size:15px;letter-spacing:1px}
+.login-input:focus{border-color:var(--gold);box-shadow:0 0 12px rgba(212,175,55,.25)}
+.login-input.error{animation:shake .35s;border-color:#d64545}
+.login-btn{margin-top:18px}
+.login-foot{margin-top:16px;color:rgba(190,180,160,.55);font-size:12px;letter-spacing:1px;line-height:1.6}
+
+/* ===== 标题页特工栏 ===== */
+.title-agent{
+  position:absolute;top:16px;right:22px;z-index:5;
+  display:flex;align-items:center;gap:10px;padding:7px 12px;
+  background:rgba(8,6,5,.72);border:1px solid rgba(212,175,55,.35);border-radius:4px;
+  font-size:13px;letter-spacing:1px;
+}
+.title-agent .agent-label{color:var(--gold);opacity:.85}
+.title-agent .agent-name{color:var(--cream);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.agent-switch{
+  padding:3px 10px;font-size:11px;letter-spacing:1px;color:var(--muted);
+  background:rgba(240,230,210,.08);border:1px solid rgba(212,175,55,.3);border-radius:3px;
+  cursor:pointer;transition:all .18s;
+}
+.agent-switch:hover{color:var(--cream);background:rgba(240,230,210,.18)}
+
+/* ===== 登录/特工栏 响应式 ===== */
+@media (max-width:900px){
+  .title-agent{top:12px;right:12px;font-size:12px}
+  .login-panel{padding:26px 22px 22px}
+  .login-title{font-size:19px}
+}
+
+/* ===== 登录/注册 标签页 ===== */
+.login-tabs{display:flex;gap:10px;justify-content:center;margin:14px 0 4px}
+.login-tab{
+  flex:1;max-width:150px;padding:9px 0;font-size:15px;letter-spacing:3px;
+  color:var(--muted);background:rgba(0,0,0,.35);
+  border:1px solid rgba(212,175,55,.28);border-radius:4px;cursor:pointer;
+  transition:all .18s;
+}
+.login-tab:hover{color:var(--cream);border-color:var(--gold-dim)}
+.login-tab.active{
+  color:var(--cream);background:rgba(139,26,26,.45);
+  border-color:var(--gold);box-shadow:0 0 10px rgba(212,175,55,.18);
+}
+.login-sub{margin-top:14px}
+
+/* ===== 注册完成欢迎面板 ===== */
+.welcome-overlay{
+  position:absolute;inset:0;z-index:30;display:none;
+  align-items:center;justify-content:center;padding:20px;
+  background:rgba(0,0,0,.62);backdrop-filter:blur(2px);
+}
+.welcome-overlay.active{display:flex}
+.welcome-panel{
+  width:min(440px,92vw);box-sizing:border-box;text-align:center;
+  background:linear-gradient(180deg,rgba(24,16,12,.96),rgba(12,8,6,.98));
+  border:1px solid var(--gold);border-radius:8px;
+  box-shadow:0 10px 44px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.07);
+  padding:34px 36px 28px;
+  animation:riseIn .35s ease-out;
+}
+@keyframes riseIn{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+.welcome-title{font-size:21px;letter-spacing:6px;color:var(--gold);text-shadow:0 2px 10px rgba(0,0,0,.9);margin-bottom:18px}
+.welcome-line{font-size:18px;color:var(--cream);line-height:1.9;letter-spacing:1px}
+.welcome-line b{color:var(--gold)}
+.welcome-panel .btn-primary{margin-top:22px}
+
+/* ===== 注册欢迎面板提示行 ===== */
+.welcome-hint{margin-top:10px;font-size:13px;color:var(--muted);letter-spacing:1px;line-height:1.7}

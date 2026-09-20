@@ -4,15 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Hidden Blade · 隐秘之刃</title>
-<link rel="stylesheet" href="css/style.css?v=20260918c">
+<link rel="stylesheet" href="css/style.css?v=20260920d">
 </head>
 <body>
 <div id="stage">
+
+  <!-- ============ 登录界面 (Agent Login / Sign Up) ============ -->
+  <section id="screen-login" class="screen">
+    <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_server.png')"></div>
+    <div class="bg-vignette"></div>
+    <div class="login-layout">
+      <div class="login-panel">
+        <img class="login-logo" src="assets/title/logo.png" alt="The Hidden Blade">
+        <div class="login-title" data-i18n="login.title">AGENT ACCESS · 特工登录</div>
+        <div class="login-tabs">
+          <button class="login-tab active" id="tab-login" data-i18n="login.tabLogin">登 录</button>
+          <button class="login-tab" id="tab-signup" data-i18n="login.tabSignup">注 册</button>
+        </div>
+        <div class="login-sub" id="login-sub" data-i18n="login.sub">输入你的特工代号，开始行动</div>
+        <input type="text" id="login-input" class="login-input" maxlength="16" autocomplete="off" spellcheck="false" placeholder="请输入代号…">
+        <button class="btn-primary login-btn" id="login-btn" data-i18n="login.enter">登 入</button>
+        <div class="login-foot" id="login-foot" data-i18n="login.hint">代号将作为你的身份标识，与存档绑定</div>
+      </div>
+    </div>
+    <!-- 注册完成欢迎面板 -->
+    <div class="welcome-overlay" id="login-welcome">
+      <div class="welcome-panel">
+        <div class="welcome-title" data-i18n="login.signedUp">注册完成</div>
+        <div class="welcome-line" id="welcome-name"></div>
+        <div class="welcome-line" id="welcome-codename"></div>
+        <div class="welcome-line welcome-hint" id="welcome-hint" data-i18n="login.signupDoneHint">现在请用你的特工代号登录，开始行动。</div>
+        <button class="btn-primary" id="welcome-enter" data-i18n="login.enterAction">进入行动</button>
+      </div>
+    </div>
+  </section>
 
   <!-- ============ 标题界面 ============ -->
   <section id="screen-title" class="screen active">
     <div class="bg-layer" style="background-image:url('assets/backgrounds/bg_title.png')"></div>
     <div class="bg-vignette"></div>
+    <div class="title-agent" id="title-agent">
+      <span class="agent-label" data-i18n="login.agent">特工</span>
+      <span class="agent-name" id="agent-name">—</span>
+      <button class="agent-switch" id="btn-switch-agent" data-i18n="login.switch">切换</button>
+      <button class="agent-switch" id="btn-logout" data-i18n="login.logout">退出</button>
+    </div>
     <div class="title-layout">
       <div class="title-left">
         <img class="title-logo" src="assets/title/logo.png" alt="The Hidden Blade">
@@ -53,6 +89,7 @@
         </nav>
         <div class="settings-side-btns">
           <button class="btn-ghost" data-action="reset-settings" data-i18n="settings.reset">恢复默认</button>
+          <button class="btn-ghost" data-action="logout" data-i18n="login.logout">退出登录</button>
           <button class="btn-primary" data-action="save-settings" data-i18n="settings.saveReturn">保存并返回</button>
         </div>
       </aside>
@@ -303,20 +340,21 @@
 
 </div>
 
-<script src="js/i18n.js?v=20260918c"></script>
-<script src="js/audio.js?v=20260918c"></script>
-<script src="js/speech.js?v=20260918c"></script>
-<script src="js/story.js?v=20260918c"></script>
-<script src="js/settings.js?v=20260918c"></script>
-<script src="js/save.js?v=20260918c"></script>
-<script src="js/achievements.js?v=20260918c"></script>
-<script src="js/gallery.js?v=20260918c"></script>
-<script src="js/team.js?v=20260918c"></script>
-<script src="js/sprites.js?v=20260918c"></script>
-<script src="js/minigame1.js?v=20260918c"></script>
-<script src="js/minigame2.js?v=20260918c"></script>
-<script src="js/minigame3.js?v=20260918c"></script>
-<script src="js/engine.js?v=20260918c"></script>
-<script src="js/main.js?v=20260918c"></script>
+<script src="js/i18n.js?v=20260920d"></script>
+<script src="js/audio.js?v=20260920d"></script>
+<script src="js/speech.js?v=20260920d"></script>
+<script src="js/story.js?v=20260920d"></script>
+<script src="js/settings.js?v=20260920d"></script>
+<script src="js/save.js?v=20260920d"></script>
+<script src="js/login.js?v=20260920d"></script>
+<script src="js/achievements.js?v=20260920d"></script>
+<script src="js/gallery.js?v=20260920d"></script>
+<script src="js/team.js?v=20260920d"></script>
+<script src="js/sprites.js?v=20260920d"></script>
+<script src="js/minigame1.js?v=20260920d"></script>
+<script src="js/minigame2.js?v=20260920d"></script>
+<script src="js/minigame3.js?v=20260920d"></script>
+<script src="js/engine.js?v=20260920d"></script>
+<script src="js/main.js?v=20260920d"></script>
 </body>
 </html>
