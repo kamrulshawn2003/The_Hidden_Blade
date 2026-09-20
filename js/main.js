@@ -17,6 +17,7 @@
     Engine.bind();
     if(window.VoiceSys) VoiceSys.init();
     SaveSys.bindUI();
+    if(window.LoginSys) LoginSys.bindUI();
 
     // 语言切换按钮（已移除 UI，保留 i18n 机制；如需恢复，添加带 data-i18n-lang 的元素即可）
     const langBtn = document.getElementById('lang-toggle');
@@ -37,6 +38,9 @@
       Settings.reset();
       Settings.bindUI(); // 重新绑定以刷新控件值
       SaveSys.showToast('已恢复默认设置');
+    });
+    document.querySelector('[data-action="logout"]').addEventListener('click', ()=>{
+      if(window.LoginSys) LoginSys.logout();
     });
     document.querySelector('[data-action="save-settings"]').addEventListener('click', ()=>{
       AudioSys.sfx.click();
@@ -94,8 +98,9 @@
     I18N.apply();
     document.documentElement.lang = I18N.getLang();
 
-    // 默认显示标题
-    Engine.showScreen('title');
+    // 默认进入登录界面（已登录则直接进标题）
+    if(window.LoginSys) LoginSys.boot();
+    else Engine.showScreen('title');
   }
 
   function bindTitleButtons(){

@@ -1,7 +1,7 @@
 /* ===== The Hidden Blade · 多槽位存档系统 =====
  * 槽位：0 = 自动存档，1~6 = 手动存档。
- * 标题页“存档游戏”按钮 = 读取最新存档（自动/手动取新）；
- * 游戏中快捷菜单“存档/读档” = 打开槽位选择界面。
+ * 标题页"存档游戏"按钮 = 读取最新存档（自动/手动取新）；
+ * 游戏中快捷菜单"存档/读档" = 打开槽位选择界面。
  */
 window.SaveSys = (function(){
   const PREFIX = 'thb_save_';
@@ -44,7 +44,8 @@ window.SaveSys = (function(){
       chapter: n ? n.chapter || '' : '',
       bg: (n && n.bg) || 'title',
       progress: state.progress || 0,
-      label: label || chapterLabel(state.node)
+      label: label || chapterLabel(state.node),
+      agent: (window.LoginSys && LoginSys.getAgent()) ? (LoginSys.getAgent().codename || LoginSys.getAgent().name) : ''
     };
     write(idx, data);
     return true;
@@ -93,7 +94,8 @@ window.SaveSys = (function(){
     if(!d) return null;
     return {
       node: d.node, label: d.label || chapterLabel(d.node),
-      progress: d.progress || 0, timestamp: d.timestamp || 0, chapter: d.chapter || ''
+      progress: d.progress || 0, timestamp: d.timestamp || 0, chapter: d.chapter || '',
+      agent: d.agent || ''
     };
   }
 
@@ -141,7 +143,8 @@ window.SaveSys = (function(){
       let metaLine = '';
       if(meta){
         metaLine = I18N.t('save.progress') + ' ' + meta.progress + '%' +
-                   (meta.timestamp ? ' · ' + fmtTime(meta.timestamp) : '');
+                   (meta.timestamp ? ' · ' + fmtTime(meta.timestamp) : '') +
+                   (meta.agent ? ' · ' + meta.agent : '');
       }
       card.innerHTML =
         '<div class="save-slot">' + slotName + '</div>' +
